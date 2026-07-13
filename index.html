@@ -455,35 +455,13 @@
                 <!-- List Card -->
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex justify-between items-center px-1">
-                        <span class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/60">동료 집사들이 남긴 공략 지침서</span>
+                        <span class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/80">동료 집사들이 남긴 공략 지침서</span>
                         <span id="board-count" class="text-[10px] xs:text-xs font-mono text-dodamJade bg-dodamJade/10 dark:bg-dodamJade/20 px-2 py-0.5 rounded-full font-semibold">설명서 2개</span>
                     </div>
                     
                     <!-- Scrollable Guestbook Area -->
                     <div id="manualList" class="space-y-4 max-h-[420px] md:max-h-[460px] overflow-y-auto pr-1">
-                        <!-- Standard Seed Data Card 1 -->
-                        <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-4 md:p-5 shadow-sm transition-colors duration-300">
-                            <div class="flex justify-between items-start mb-2">
-                                <h4 class="serif-font font-bold text-sm xs:text-base text-dodamCharcoal dark:text-white">코코 <span class="text-[10px] xs:text-xs font-sans text-dodamCharcoal/50 dark:text-darkText/50 ml-1.5">코리안 쇼트헤어</span></h4>
-                                <span class="text-[9px] md:text-[10px] bg-dodamJade/10 dark:bg-dodamJade/20 text-dodamJade font-bold px-2 py-0.5 rounded">츤데레 요정</span>
-                            </div>
-                            <p class="text-xs text-dodamJade font-semibold mb-1">"컴퓨터 켜면 키보드 정중앙에 수직 점프해서 착지"</p>
-                            <p class="text-xs text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                                절대 평소엔 쓰다듬는걸 귀찮아하지만 재택근무를 켜거나 노트북만 폈다 하면 귀신같이 키보드 위를 장악합니다. 비키라고 하면 가벼운 꾹꾹이를 하사하며 타협을 요구합니다.
-                            </p>
-                        </div>
-                        
-                        <!-- Standard Seed Data Card 2 -->
-                        <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-4 md:p-5 shadow-sm transition-colors duration-300">
-                            <div class="flex justify-between items-start mb-2">
-                                <h4 class="serif-font font-bold text-sm xs:text-base text-dodamCharcoal dark:text-white">레오 <span class="text-[10px] xs:text-xs font-sans text-dodamCharcoal/50 dark:text-darkText/50 ml-1.5">러시안 블루</span></h4>
-                                <span class="text-[9px] md:text-[10px] bg-dodamJade/10 dark:bg-dodamJade/20 text-dodamJade font-bold px-2 py-0.5 rounded">눈빛 레이저</span>
-                            </div>
-                            <p class="text-xs text-dodamJade font-semibold mb-1">"문지방 너머에서 레이저 눈빛으로 보초 서기"</p>
-                            <p class="text-xs text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                                절대로 방 안으로는 안 들어오는데 꼭 방문 바로 앞에서 한 발만 들여놓은 채 가만히 쳐다봅니다. 부르면 뒤돌아서 가버리고, 모른 척하면 다시 와서 지켜보는 고도의 스토커 스타일입니다.
-                            </p>
-                        </div>
+                        <!-- 이 영역은 스크립트의 initGuestbook을 통해 기본값과 저장된 데이터가 순서대로 안전하게 동적 렌더링됩니다 -->
                     </div>
                 </div>
             </div>
@@ -582,10 +560,46 @@
             }, 2500);
         }
 
-        // Initialize localstorage comments on start
-        document.addEventListener('DOMContentLoaded', () => {
-            loadLocalStorageManuals();
-        });
+        // 브라우저 보안 환경(iFrame 포함)에서 LocalStorage가 차단되었을 때의 오류 방지 구조 정의
+        const storageHelper = {
+            get: (key) => {
+                try {
+                    return localStorage.getItem(key);
+                } catch (e) {
+                    console.warn("Storage read blocked by browser security sandbox:", e);
+                    return null;
+                }
+            },
+            set: (key, value) => {
+                try {
+                    localStorage.setItem(key, value);
+                } catch (e) {
+                    console.warn("Storage write blocked by browser security sandbox:", e);
+                }
+            }
+        };
+
+        // 초기 화면에 기본으로 노출될 동료 집사들의 시드 데이터
+        const defaultManuals = [
+            {
+                id: 1,
+                name: "코코",
+                species: "코리안 쇼트헤어",
+                tag: "츤데레 요정",
+                trait: "컴퓨터 켜면 키보드 정중앙에 수직 점프해서 착지",
+                guide: "절대 평소엔 쓰다듬는걸 귀찮아하지만 재택근무를 켜거나 노트북만 폈다 하면 귀신같이 키보드 위를 장악합니다. 비키라고 하면 가벼운 꾹꾹이를 하사하며 타협을 요구합니다."
+            },
+            {
+                id: 2,
+                name: "레오",
+                species: "러시안 블루",
+                tag: "눈빛 레이저",
+                trait: "문지방 너머에서 레이저 눈빛으로 보초 서기",
+                guide: "절대로 방 안으로는 안 들어오는데 꼭 방문 바로 앞에서 한 발만 들여놓은 채 가만히 쳐다봅니다. 부르면 뒤돌아서 가버리고, 모른 척하면 다시 와서 지켜보는 고도의 스토커 스타일입니다."
+            }
+        ];
+
+        let customManuals = [];
 
         // Interactive Simulator Logic
         function interact(action) {
@@ -646,20 +660,41 @@
             showToast('시뮬레이션이 초기 상태로 리셋되었습니다. 💤');
         }
 
-        // Guestbook / Form logic
-        let customManuals = [];
-
-        function loadLocalStorageManuals() {
-            const stored = localStorage.getItem('dodam_guestbook');
+        // 방명록 초기화 및 렌더링 제어
+        function initGuestbook() {
+            const stored = storageHelper.get('dodam_guestbook');
             if (stored) {
-                customManuals = JSON.parse(stored);
-                customManuals.forEach(item => {
-                    renderManualCard(item, false);
-                });
-                updateBoardCount();
+                try {
+                    customManuals = JSON.parse(stored);
+                } catch (e) {
+                    customManuals = [];
+                }
             }
+            renderAllManuals();
         }
 
+        // 전체 설명서 리스트 갱신 (저장된 리스트 -> 기본 리스트 순서로 정렬)
+        function renderAllManuals() {
+            const container = document.getElementById('manualList');
+            if (!container) return;
+            
+            // 중복 렌더링 방지를 위해 비우기
+            container.innerHTML = '';
+
+            // 1. 유저가 로컬스토리지에 저장한 설명서 렌더링
+            customManuals.forEach(item => {
+                renderManualCard(item, false, true);
+            });
+
+            // 2. 기본 가이드(시드 데이터) 렌더링
+            defaultManuals.forEach(item => {
+                renderManualCard(item, false, false);
+            });
+
+            updateBoardCount();
+        }
+
+        // 새 반려묘 설명서 추가 등록
         function addManual(event) {
             event.preventDefault();
             const name = document.getElementById('catName').value.trim();
@@ -672,27 +707,36 @@
                 id: Date.now(),
                 name,
                 trait,
-                guide
+                guide,
+                species: "반려묘",
+                tag: "동료 집사"
             };
 
+            // 메모리 및 브라우저 영구 저장소에 추가
             customManuals.unshift(newItem);
-            localStorage.setItem('dodam_guestbook', JSON.stringify(customManuals));
+            storageHelper.set('dodam_guestbook', JSON.stringify(customManuals));
 
-            renderManualCard(newItem, true);
+            // 화면 재렌더링
+            renderAllManuals();
+            
             document.getElementById('catForm').reset();
-            updateBoardCount();
-            showToast(`📝 ${name}의 사용 설명서가 공유 목록에 등록되었습니다!`);
+            showToast(`📝 ${name}의 사용 설명서가 안전하게 영구 저장되었습니다!`);
         }
 
-        function renderManualCard(item, prepend = false) {
+        function renderManualCard(item, prepend = false, isCustom = false) {
             const container = document.getElementById('manualList');
             
             const card = document.createElement('div');
             card.className = 'bg-white dark:bg-darkCard border border-dodamJade/20 dark:border-white/10 rounded-2xl p-4 md:p-5 shadow-sm transition-all duration-300 transform hover:-translate-y-0.5';
+            
+            const badgeColor = 'bg-dodamJade/10 dark:bg-dodamJade/20 text-dodamJade';
+            const subText = item.species ? item.species : '반려묘';
+            const tagText = item.tag ? item.tag : '동료 집사';
+
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-2">
-                    <h4 class="serif-font font-bold text-sm xs:text-base text-dodamCharcoal dark:text-white">${escapeHTML(item.name)} <span class="text-[10px] xs:text-xs font-sans text-dodamCharcoal/50 dark:text-darkText/50 ml-1.5">반려묘</span></h4>
-                    <span class="text-[9px] md:text-[10px] bg-dodamJade/10 dark:bg-dodamJade/20 text-dodamJade font-bold px-2 py-0.5 rounded">동료 집사</span>
+                    <h4 class="serif-font font-bold text-sm xs:text-base text-dodamCharcoal dark:text-white">${escapeHTML(item.name)} <span class="text-[10px] xs:text-xs font-sans text-dodamCharcoal/50 dark:text-darkText/50 ml-1.5">${escapeHTML(subText)}</span></h4>
+                    <span class="text-[9px] md:text-[10px] ${badgeColor} font-bold px-2 py-0.5 rounded">${escapeHTML(tagText)}</span>
                 </div>
                 <p class="text-xs text-dodamJade font-semibold mb-1">"${escapeHTML(item.trait)}"</p>
                 <p class="text-xs text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
@@ -708,7 +752,7 @@
         }
 
         function updateBoardCount() {
-            const totalCount = 2 + customManuals.length;
+            const totalCount = defaultManuals.length + customManuals.length;
             document.getElementById('board-count').innerText = `설명서 ${totalCount}개`;
         }
 
@@ -791,9 +835,9 @@
         // Window resize event handler
         window.addEventListener('resize', resizeCanvas);
 
-        // Merge initialization inside DOMContentLoaded
+        // 로드 시 초기 호출 통합
         document.addEventListener('DOMContentLoaded', () => {
-            loadLocalStorageManuals();
+            initGuestbook();
             resizeCanvas();
             animateParticles();
         });
