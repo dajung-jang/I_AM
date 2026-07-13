@@ -91,6 +91,24 @@
     <!-- Ambient Floating Particles Canvas -->
     <canvas id="ambient-particles" class="fixed inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
 
+    <!-- Floating Circular Scroll Progress Gauge (우측 상단 고정) -->
+    <div id="scroll-gauge-container" class="fixed top-20 right-4 xs:right-6 z-40 bg-white/90 dark:bg-darkCard/90 p-2 rounded-full shadow-lg border border-dodamJade/20 dark:border-white/10 transition-all duration-300 flex items-center justify-center group hover:scale-105 backdrop-blur-sm cursor-help" title="스크롤 진행률">
+        <div class="relative w-11 h-11 xs:w-12 xs:h-12 flex items-center justify-center">
+            <!-- Progress Circle SVG -->
+            <svg class="w-full h-full transform -rotate-90">
+                <!-- Background track circle -->
+                <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="3.5" fill="transparent" class="text-[#ECECE9] dark:text-[#3E3E3C] transition-colors duration-300" />
+                <!-- Dynamic progress circle (Circumference is 2 * PI * 20 = 125.66) -->
+                <circle id="scroll-progress-ring" cx="24" cy="24" r="20" stroke="#7CA190" stroke-width="3.5" fill="transparent" stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" class="transition-all duration-75" />
+            </svg>
+            <!-- Central Display Area -->
+            <div class="absolute inset-0 flex items-center justify-center flex-col text-[10px] font-sans font-bold text-dodamCharcoal dark:text-darkText">
+                <span id="scroll-percent-text" class="group-hover:hidden transition-all duration-200 text-xs xs:text-sm">🐾</span>
+                <span id="scroll-percent-num" class="hidden group-hover:inline transition-all duration-200 text-[10px] xs:text-xs">0%</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification Popup (Responsive position) -->
     <div id="toast" class="fixed bottom-5 left-4 right-4 md:left-auto md:right-5 z-[100] bg-dodamJade text-white px-5 py-3.5 rounded-2xl shadow-xl transform translate-y-24 opacity-0 transition-all duration-300 flex items-center justify-center md:justify-start gap-2.5 text-xs md:text-sm font-semibold pointer-events-none serif-font">
         <i class="fa-solid fa-cat animate-bounce"></i> <span id="toast-msg">알림 메시지</span>
@@ -557,7 +575,8 @@
                 "footer-text": "따로 또 같이, 집사 곁을 은은한 온도와 깊이 있는 시선으로 채워주는 세상의 모든 도담이들을 응원합니다.",
                 "placeholder-name": "예: 나비",
                 "placeholder-trait": "예: 손가락을 주면 살짝 깨묾",
-                "placeholder-guide": "예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠."
+                "placeholder-guide": "예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠.",
+                "gauge-title": "스크롤 진행률"
             },
             en: {
                 "nav-intro": "Rules",
@@ -619,7 +638,8 @@
                 "footer-text": "Cheering for all the beautiful cats in the world who warm our hearts and watch over us with their quiet, loving gaze.",
                 "placeholder-name": "e.g., Coco",
                 "placeholder-trait": "e.g., Bites gently when you offer a finger",
-                "placeholder-guide": "e.g., Ignores me all day but sleeps right next to my pillow at night."
+                "placeholder-guide": "e.g., Ignores me all day but sleeps right next to my pillow at night.",
+                "gauge-title": "Scroll Progress"
             }
         };
 
@@ -771,7 +791,10 @@
                 bubble.innerText = simData[currentLang].sleepy;
             }
 
-            // 5. Re-render Guestbook list
+            // 5. Update Scroll Progress Tooltip Translation
+            document.getElementById('scroll-gauge-container').setAttribute('title', dict['gauge-title']);
+
+            // 6. Re-render Guestbook list
             renderAllManuals();
         }
 
@@ -1050,12 +1073,13 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // 지능형 스크롤스파이(Scrollspy) 시스템 정의
+        // 지능형 스크롤스파이(Scrollspy) 및 실시간 스크롤 진행률 게이지 업데이트
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-        function activeMenuOnScroll() {
+        function updateScrollAndMenu() {
+            // 1. 스크롤스파이 로직
             let currentSectionId = '';
             const scrollPos = window.scrollY || document.documentElement.scrollTop;
             
@@ -1081,10 +1105,28 @@
                     link.classList.add('text-dodamJade');
                 }
             });
+
+            // 2. 실시간 스크롤 게이지 공식 연동
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollPos / docHeight) * 100 : 0;
+            
+            const ring = document.getElementById('scroll-progress-ring');
+            const percentNum = document.getElementById('scroll-percent-num');
+            
+            // SVG 반지름(r)이 20이므로 총 둘레 길이는 125.66px 입니다.
+            const circumference = 125.66;
+            const offset = circumference - (scrollPercent / 100) * circumference;
+            
+            if (ring) {
+                ring.style.strokeDashoffset = offset;
+            }
+            if (percentNum) {
+                percentNum.innerText = `${Math.round(scrollPercent)}%`;
+            }
         }
 
         window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('scroll', activeMenuOnScroll);
+        window.addEventListener('scroll', updateScrollAndMenu);
 
         // 로드 시 초기 호출 통합
         document.addEventListener('DOMContentLoaded', () => {
@@ -1100,7 +1142,7 @@
             initGuestbook();
             resizeCanvas();
             animateParticles();
-            activeMenuOnScroll();
+            updateScrollAndMenu();
         });
     </script>
 </body>
