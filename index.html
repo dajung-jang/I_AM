@@ -105,14 +105,14 @@
             
             <!-- Desktop Tab Menu -->
             <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-dodamCharcoal/80 dark:text-darkText/80">
-                <a href="#tab-intro" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">공략 수칙</a>
-                <a href="#tab-manual" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">사용 지침서</a>
-                <a href="#tab-simulator" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">밀당 시뮬레이터</a>
-                <a href="#tab-guestbook" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">집사 광장</a>
+                <a href="#tab-intro" data-i18n="nav-intro" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">공략 수칙</a>
+                <a href="#tab-manual" data-i18n="nav-manual" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">사용 지침서</a>
+                <a href="#tab-simulator" data-i18n="nav-simulator" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">밀당 시뮬레이터</a>
+                <a href="#tab-guestbook" data-i18n="nav-guestbook" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">집사 광장</a>
             </div>
 
             <div class="flex items-center gap-2">
-                <a href="#tab-simulator" class="hidden sm:inline-block bg-dodamJade hover:bg-dodamJadeDark text-white px-4 py-2 rounded-full text-xs transition-all serif-font font-bold shadow-sm shrink-0">
+                <a href="#tab-simulator" data-i18n="nav-cta" class="hidden sm:inline-block bg-dodamJade hover:bg-dodamJadeDark text-white px-4 py-2 rounded-full text-xs transition-all serif-font font-bold shadow-sm shrink-0">
                     밀당 시작하기
                 </a>
                 <!-- Mobile Menu Button (Hamburger) -->
@@ -126,16 +126,16 @@
         <div id="mobile-menu" class="md:hidden bg-white/95 dark:bg-darkCard/95 border-t border-[#4A4A4A]/5 dark:border-white/5 shadow-inner">
             <div class="flex flex-col px-6 py-4 gap-4 text-sm font-semibold serif-font text-dodamCharcoal dark:text-darkText">
                 <a href="#tab-intro" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
-                    <i class="fa-solid fa-triangle-exclamation w-5 text-center text-red-400"></i> 공략 수칙
+                    <i class="fa-solid fa-triangle-exclamation w-5 text-center text-red-400"></i> <span data-i18n="nav-intro">공략 수칙</span>
                 </a>
                 <a href="#tab-manual" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
-                    <i class="fa-solid fa-book w-5 text-center text-dodamJade"></i> 사용 지침서
+                    <i class="fa-solid fa-book w-5 text-center text-dodamJade"></i> <span data-i18n="nav-manual">사용 지침서</span>
                 </a>
                 <a href="#tab-simulator" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
-                    <i class="fa-solid fa-gamepad w-5 text-center text-dodamJade"></i> 밀당 시뮬레이터
+                    <i class="fa-solid fa-gamepad w-5 text-center text-dodamJade"></i> <span data-i18n="nav-simulator">밀당 시뮬레이터</span>
                 </a>
                 <a href="#tab-guestbook" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
-                    <i class="fa-solid fa-comments w-5 text-center text-dodamJade"></i> 집사 광장
+                    <i class="fa-solid fa-comments w-5 text-center text-dodamJade"></i> <span data-i18n="nav-guestbook">집사 광장</span>
                 </a>
             </div>
         </div>
@@ -149,15 +149,22 @@
         
         <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
             
-            <!-- Beautiful Light / Dark Mode Toggle Button -->
-            <div class="mb-8 z-10">
+            <!-- Beautiful Light / Dark Mode & Language Toggle Buttons -->
+            <div class="mb-8 z-10 flex flex-wrap justify-center gap-3">
+                <!-- Theme Toggle -->
                 <button onclick="toggleDarkMode()" id="theme-toggle" class="flex items-center gap-2.5 bg-white dark:bg-darkCard px-5 py-2.5 rounded-full border border-dodamCharcoal/15 dark:border-white/10 text-xs md:text-sm font-semibold text-dodamCharcoal dark:text-darkText shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md focus:outline-none">
                     <span class="dark:hidden flex items-center gap-2">
-                        <i class="fa-solid fa-moon text-indigo-500 animate-pulse"></i> 다크 모드로 전환
+                        <i class="fa-solid fa-moon text-indigo-500 animate-pulse"></i> <span data-i18n="toggle-dark">다크 모드로 전환</span>
                     </span>
                     <span class="hidden dark:flex items-center gap-2">
-                        <i class="fa-solid fa-sun text-amber-400 animate-spin" style="animation-duration: 8s;"></i> 라이트 모드로 전환
+                        <i class="fa-solid fa-sun text-amber-400 animate-spin" style="animation-duration: 8s;"></i> <span data-i18n="toggle-light">라이트 모드로 전환</span>
                     </span>
+                </button>
+
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" id="lang-toggle" class="flex items-center gap-2 bg-white dark:bg-darkCard px-5 py-2.5 rounded-full border border-dodamCharcoal/15 dark:border-white/10 text-xs md:text-sm font-semibold text-dodamCharcoal dark:text-darkText shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md focus:outline-none">
+                    <i class="fa-solid fa-globe text-dodamJade"></i>
+                    <span id="lang-btn-text" class="font-sans">English</span>
                 </button>
             </div>
 
@@ -200,20 +207,20 @@
                 </div>
             </div>
 
-            <p class="text-[10px] xs:text-xs tracking-[0.2em] uppercase font-sans font-semibold text-dodamJade mb-3">Branding Concept Book & Live Preview</p>
+            <p data-i18n="hero-tag" class="text-[10px] xs:text-xs tracking-[0.2em] uppercase font-sans font-semibold text-dodamJade mb-3">Branding Concept Book & Live Preview</p>
             <h1 class="serif-font text-2xl xs:text-3xl md:text-5xl font-bold text-dodamCharcoal dark:text-white leading-tight mb-4 md:mb-6 max-w-2xl px-2">
-                밀당 고수 <span class="border-b-4 border-dodamJade/40 pb-1">도담이</span> 사용 설명서
+                <span data-i18n="hero-title-prefix">밀당 고수</span> <span class="border-b-4 border-dodamJade/40 pb-1" data-i18n="hero-title-name">도담이</span> <span data-i18n="hero-title-suffix">사용 설명서</span>
             </h1>
-            <p class="serif-font text-sm xs:text-base md:text-xl text-dodamCharcoal/80 dark:text-darkText/80 max-w-xl px-4 leading-relaxed italic mb-8 md:mb-10">
+            <p data-i18n="hero-sub" class="serif-font text-sm xs:text-base md:text-xl text-dodamCharcoal/80 dark:text-darkText/80 max-w-xl px-4 leading-relaxed italic mb-8 md:mb-10">
                 "부르면 안 오지만 발소리엔 마중 나오고, 기분 좋으면 머리부터 들이미는 밀당 고수"
             </p>
             
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center w-full sm:w-auto px-4">
                 <a href="#tab-intro" class="w-full sm:w-auto text-center bg-dodamJade hover:bg-dodamJadeDark text-white px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all shadow-md transform hover:-translate-y-0.5 serif-font">
-                    <i class="fa-regular fa-bookmark mr-2"></i>수칙 정독하기
+                    <i class="fa-regular fa-bookmark mr-2"></i><span data-i18n="hero-btn-read">수칙 정독하기</span>
                 </a>
                 <a href="#tab-simulator" class="w-full sm:w-auto text-center border border-dodamCharcoal/30 dark:border-white/30 hover:bg-dodamCream/50 dark:hover:bg-darkCard text-dodamCharcoal dark:text-darkText px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font">
-                    실제 밀당 체험하기 <i class="fa-solid fa-play ml-1 text-[10px]"></i>
+                    <span data-i18n="hero-btn-play">실제 밀당 체험하기</span> <i class="fa-solid fa-play ml-1 text-[10px]"></i>
                 </a>
             </div>
         </div>
@@ -227,35 +234,35 @@
     <!-- Main Contents Container -->
     <main class="relative z-10">
 
-        <!-- SECTION 1: INTRO SECTION (scroll-mt-20 추가하여 상단 고정 바 간격 최적화) -->
+        <!-- SECTION 1: INTRO SECTION -->
         <section id="tab-intro" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-white dark:bg-darkBg transition-colors duration-300">
             <div class="max-w-3xl mx-auto text-center">
                 <div class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-red-50 dark:bg-red-950/40 text-red-500 dark:text-red-400 mb-5 border border-red-100 dark:border-red-900">
                     <i class="fa-solid fa-triangle-exclamation text-base"></i>
                 </div>
-                <h2 class="serif-font text-xl xs:text-2xl md:text-3xl font-bold text-dodamCharcoal dark:text-white mb-4 md:mb-6">
+                <h2 data-i18n="intro-title" class="serif-font text-xl xs:text-2xl md:text-3xl font-bold text-dodamCharcoal dark:text-white mb-4 md:mb-6">
                     ⚠️ 사용 개시 전 필수 경고문구
                 </h2>
                 <div class="bg-dodamBg dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 xs:p-6 md:p-8 text-left shadow-sm max-w-2xl mx-auto space-y-4 transition-colors duration-300">
-                    <p class="serif-font text-dodamCharcoal/90 dark:text-darkText/90 leading-relaxed text-xs xs:text-sm md:text-base">
+                    <p data-i18n="intro-p" class="serif-font text-dodamCharcoal/90 dark:text-darkText/90 leading-relaxed text-xs xs:text-sm md:text-base">
                         본 웹사이트는 <strong>도담이(페르시안 친칠라 실버, 묘르신)</strong>의 미학적 정체성과 규칙적인 성격을 완벽히 숙지하여 집사 및 동료 애묘인들의 심장 마비를 방지하기 위한 용도로 제작되었습니다.
                     </p>
                     <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 my-3 pt-3.5 space-y-3 text-[11px] xs:text-xs md:text-sm text-dodamCharcoal/80 dark:text-darkText/80">
                         <div class="flex gap-2 items-start">
                             <span class="text-dodamJade font-bold">1.</span>
-                            <span>집착 금지: 지나친 쓰다듬기는 대상의 즉각적인 방 이동(탈출) 프로토콜을 활성화시킵니다.</span>
+                            <span data-i18n="intro-warn-1">집착 금지: 지나친 쓰다듬기는 대상의 즉각적인 방 이동(탈출) 프로토콜을 활성화시킵니다.</span>
                         </div>
                         <div class="flex gap-2 items-start">
                             <span class="text-dodamJade font-bold">2.</span>
-                            <span>공간 예우: '따로 또 같이' 지켜보는 거리에 감사함을 가져야 합니다.</span>
+                            <span data-i18n="intro-warn-2">공간 예우: '따로 또 같이' 지켜보는 거리에 감사함을 가져야 합니다.</span>
                         </div>
                         <div class="flex gap-2 items-start">
                             <span class="text-dodamJade font-bold">3.</span>
-                            <span>심쿵 주의: 덩치가 미니미하여 식빵을 굽는 실루엣이 상상 초월로 작고 하찮을 수 있습니다.</span>
+                            <span data-i18n="intro-warn-3">심쿵 주의: 덩치가 미니미하여 식빵을 굽는 실루엣이 상상 초월로 작고 하찮을 수 있습니다.</span>
                         </div>
                     </div>
                     <div class="bg-white dark:bg-darkBg p-3 rounded-xl flex items-center justify-between text-[11px] text-dodamCharcoal/70 dark:text-darkText/70 transition-colors duration-300">
-                        <span>최종 동의 여부: <strong>집사 자격 확인됨</strong></span>
+                        <span data-i18n="intro-agree">최종 동의 여부: <strong>집사 자격 확인됨</strong></span>
                         <i class="fa-solid fa-circle-check text-dodamJade text-sm xs:text-base"></i>
                     </div>
                 </div>
@@ -266,9 +273,9 @@
         <section id="tab-manual" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-[#ECECE9]/30 dark:bg-darkCard/25 border-y border-[#4A4A4A]/5 dark:border-white/5 transition-colors duration-300">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-12 md:mb-20">
-                    <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">USER MANUAL</span>
-                    <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">도담 공략 매뉴얼 (5대 행동 지침)</h2>
-                    <p class="text-xs xs:text-sm md:text-base text-dodamCharcoal/60 dark:text-darkText/60 mt-1 max-w-lg mx-auto">기획서 기반 도담이의 특색을 지침서로 구성했습니다.</p>
+                    <span data-i18n="manual-badge" class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">USER MANUAL</span>
+                    <h2 data-i18n="manual-title" class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">도담 공략 매뉴얼 (5대 행동 지침)</h2>
+                    <p data-i18n="manual-subtitle" class="text-xs xs:text-sm md:text-base text-dodamCharcoal/60 dark:text-darkText/60 mt-1 max-w-lg mx-auto">기획서 기반 도담이의 특색을 지침서로 구성했습니다.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
@@ -279,14 +286,14 @@
                                 <span class="text-2xl md:text-3xl">🚪</span>
                                 <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 01</span>
                             </div>
-                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">발소리 마중 프로토콜</h3>
-                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                            <h3 data-i18n="ch1-title" class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">발소리 마중 프로토콜</h3>
+                            <p data-i18n="ch1-desc" class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
                                 평소엔 아무리 부르고 간청해도 도도함을 고수하지만, 집사의 복귀 발소리가 도어락 외부에서 감지되는 순간 기적적인 자동 마중 프로토콜이 구동됩니다. 현관 앞 대기와 야옹 소리를 무기로 집사의 귀갓길 보람을 증폭시키는 츤데레 지침의 핵심입니다.
                             </p>
                         </div>
                         <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-dodamJade animate-ping"></span>
-                            센서 감지 시: 야옹 발사 준비 완료
+                            <span data-i18n="ch1-status">센서 감지 시: 야옹 발사 준비 완료</span>
                         </div>
                     </div>
 
@@ -297,14 +304,14 @@
                                 <span class="text-2xl md:text-3xl">💕</span>
                                 <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 02</span>
                             </div>
-                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">쓰다듬기 & 머리 들이밀기 구간</h3>
-                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                            <h3 data-i18n="ch2-title" class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">쓰다듬기 & 머리 들이밀기 구간</h3>
+                            <p data-i18n="ch2-desc" class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
                                 주도권은 항상 도담이에게 있습니다. 본인이 직접 집사의 손길을 원해 다가와 머리를 들이밀 때만이 유일한 안심 쓰다듬기 골든타임입니다. 이 찬스를 발견하면 지체 없이 부드럽게 쓰다듬어 극상의 만족(야옹 연타)을 유도해야 합니다.
                             </p>
                         </div>
                         <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                            머리를 부비는 모션 확인 후 스킨십 개시
+                            <span data-i18n="ch2-status">머리를 부비는 모션 확인 후 스킨십 개시</span>
                         </div>
                     </div>
 
@@ -315,14 +322,14 @@
                                 <span class="text-2xl md:text-3xl">🍞</span>
                                 <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 03</span>
                             </div>
-                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">한 줌 미니 식빵 규격 제한</h3>
-                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                            <h3 data-i18n="ch3-title" class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">한 줌 미니 식빵 규격 제한</h3>
+                            <p data-i18n="ch3-desc" class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
                                 도담이는 보통의 묘체에 비해 다소 콤팩트한 체형을 유지 중입니다. 소파 위나 이불 위에 자리를 잡고 네 발을 안으로 굽혀 ‘식빵’을 제작할 때, 한 줌밖에 되지 않는 무공해 실루엣이 나타납니다. 섣부른 심장 가격에 주의하시고 눈으로만 감상하십시오.
                             </p>
                         </div>
                         <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                            권장 감상 거리: 1미터 유지
+                            <span data-i18n="ch3-status">권장 감상 거리: 1미터 유지</span>
                         </div>
                     </div>
 
@@ -333,14 +340,14 @@
                                 <span class="text-2xl md:text-3xl">🛏️</span>
                                 <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 04</span>
                             </div>
-                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">적당한 거리의 동반 법칙</h3>
-                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                            <h3 data-i18n="ch4-title" class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">적당한 거리의 동반 법칙</h3>
+                            <p data-i18n="ch4-desc" class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
                                 따로 또 같이의 결정체. 잘 때는 집사 침대 발치에서 은은하게 체온을 느끼게 해주고, 활동할 때는 거실이나 안방 등 가족들이 있는 공간의 한구석에 조용히 합류해 자리를 보전합니다. 지나치게 붙어 치대진 않지만 절대 멀어지지도 않는 세련된 동행 스타일입니다.
                             </p>
                         </div>
                         <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                            물리적 접근 경계값: 최소 30cm 이격 권장
+                            <span data-i18n="ch4-status">물리적 접근 경계값: 최소 30cm 이격 권장</span>
                         </div>
                     </div>
 
@@ -351,14 +358,14 @@
                                 <span class="text-xl md:text-2xl">🐾</span>
                                 <span class="text-[10px] font-mono bg-dodamJade/10 text-dodamJade font-bold px-2 py-0.5 rounded">CHAPTER 05</span>
                             </div>
-                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-1.5">당당한 마이웨이 (외부인 대응 지침)</h3>
-                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                            <h3 data-i18n="ch5-title" class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-1.5">당당한 마이웨이 (외부인 대응 지침)</h3>
+                            <p data-i18n="ch5-desc" class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
                                 세월의 지혜(묘르신의 평화)를 획득하여 손님이 찾아오더라도 침대 밑에 고립되거나 떨지 않습니다. 다만 무례하게 선을 넘어 섣불리 쓰다듬으려는 외부인에게는 소리 없이 우아하게 유령처럼 스르륵 물러나는 경고 없는 거부권을 선언합니다.
                             </p>
                         </div>
                         <div class="bg-white dark:bg-darkBg px-4 py-3.5 md:px-5 md:py-4 rounded-xl border border-dodamJade/10 dark:border-white/10 text-center w-full md:w-auto shrink-0 shadow-sm mt-2 md:mt-0 transition-all duration-300">
-                            <div class="text-[10px] xs:text-xs text-dodamCharcoal/60 dark:text-darkText/60 mb-0.5">외부인 터치 시</div>
-                            <span class="font-sans font-bold text-red-500 dark:text-red-400 text-xs xs:text-sm"><i class="fa-solid fa-ban mr-1"></i> 회피율 99.9% 작동</span>
+                            <div data-i18n="ch5-status-label" class="text-[10px] xs:text-xs text-dodamCharcoal/60 dark:text-darkText/60 mb-0.5">외부인 터치 시</div>
+                            <span class="font-sans font-bold text-red-500 dark:text-red-400 text-xs xs:text-sm"><i class="fa-solid fa-ban mr-1"></i> <span data-i18n="ch5-status-val">회피율 99.9% 작동</span></span>
                         </div>
                     </div>
                 </div>
@@ -368,9 +375,9 @@
         <!-- SECTION 3: SIMULATOR SECTION -->
         <section id="tab-simulator" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-white dark:bg-darkBg transition-colors duration-300">
             <div class="max-w-4xl mx-auto text-center">
-                <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">INTERACTIVE SIMULATION</span>
-                <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white mb-3">도담이와의 실전 밀당 체험</h2>
-                <p class="text-xs xs:text-sm md:text-base text-dodamCharcoal/70 dark:text-darkText/70 mb-8 md:mb-12 max-w-lg mx-auto leading-relaxed">
+                <span data-i18n="sim-badge" class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">INTERACTIVE SIMULATION</span>
+                <h2 data-i18n="sim-title" class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white mb-3">도담이와의 실전 밀당 체험</h2>
+                <p data-i18n="sim-sub" class="text-xs xs:text-sm md:text-base text-dodamCharcoal/70 dark:text-darkText/70 mb-8 md:mb-12 max-w-lg mx-auto leading-relaxed">
                     집사님의 가이드라인을 토대로 프로그래밍된 도담이 행동 반응로입니다.<br>하단의 버튼들을 클릭하여 도담이의 반응을 체크해 보세요!
                 </p>
 
@@ -397,22 +404,22 @@
                     <!-- Action Button Matrix -->
                     <div class="grid grid-cols-2 gap-2 md:gap-4 w-full">
                         <button onclick="interact('call')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
-                            📢 "도담아!" 부르기
+                            <span data-i18n="sim-btn-call">📢 "도담아!" 부르기</span>
                         </button>
                         <button onclick="interact('footstep')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
-                            🚪 "터벅" 발소리 내기
+                            <span data-i18n="sim-btn-footstep">🚪 "터벅" 발소리 내기</span>
                         </button>
                         <button onclick="interact('overpet')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
-                            🖐️ 억지로 계속 주무르기
+                            <span data-i18n="sim-btn-overpet">🖐️ 억지로 계속 주무르기</span>
                         </button>
                         <button onclick="interact('headbutt')" class="bg-dodamJade hover:bg-dodamJadeDark text-white px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 shadow-sm">
-                            💕 머리 쓰다듬기
+                            <span data-i18n="sim-btn-headbutt">💕 머리 쓰다듬기</span>
                         </button>
                     </div>
 
                     <!-- Reset simulation link -->
                     <button onclick="resetSim()" class="mt-5 text-[11px] xs:text-xs text-dodamCharcoal/50 dark:text-darkText/50 hover:text-dodamJade transition-colors underline underline-offset-4 focus:outline-none">
-                        시뮬레이션 처음으로 되돌리기
+                        <span data-i18n="sim-reset">시뮬레이션 처음으로 되돌리기</span>
                     </button>
                 </div>
             </div>
@@ -422,9 +429,9 @@
         <section id="tab-guestbook" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-[#ECECE9]/30 dark:bg-darkCard/25 border-t border-[#4A4A4A]/5 dark:border-white/5 transition-colors duration-300">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-8 md:mb-16">
-                    <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">COMMUNITY BOARD</span>
-                    <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">우리 고양이 사용 설명서 자랑</h2>
-                    <p class="text-xs xs:text-sm text-dodamCharcoal/60 dark:text-darkText/60 mt-1.5 max-w-lg mx-auto leading-relaxed">
+                    <span data-i18n="gb-badge" class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">COMMUNITY BOARD</span>
+                    <h2 data-i18n="gb-title" class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">우리 고양이 사용 설명서 자랑</h2>
+                    <p data-i18n="gb-sub" class="text-xs xs:text-sm text-dodamCharcoal/60 dark:text-darkText/60 mt-1.5 max-w-lg mx-auto leading-relaxed">
                         도담이처럼 은근한 반전 매력이나 츤데레적 면모를 소유한 고양이를 자랑하고 다른 집사님들과 공감대를 나눠보세요.
                     </p>
                 </div>
@@ -432,22 +439,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     <!-- Form Card -->
                     <div class="md:col-span-1 bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 md:p-6 shadow-sm h-fit transition-colors duration-300">
-                        <h3 class="serif-font text-base xs:text-lg font-bold text-dodamCharcoal dark:text-white mb-3 md:mb-4">내 반려묘 등록</h3>
+                        <h3 data-i18n="gb-form-title" class="serif-font text-base xs:text-lg font-bold text-dodamCharcoal dark:text-white mb-3 md:mb-4">내 반려묘 등록</h3>
                         <form id="catForm" onsubmit="addManual(event)" class="space-y-3.5">
                             <div>
-                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">고양이 이름</label>
-                                <input type="text" id="catName" required placeholder="예: 나비" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
+                                <label data-i18n="gb-label-name" class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">고양이 이름</label>
+                                <input type="text" id="catName" required class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
                             </div>
                             <div>
-                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">핵심 매력 (1줄 요약)</label>
-                                <input type="text" id="catTrait" required placeholder="예: 손가락을 주면 살짝 깨묾" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
+                                <label data-i18n="gb-label-trait" class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">핵심 매력 (1줄 요약)</label>
+                                <input type="text" id="catTrait" required class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
                             </div>
                             <div>
-                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">밀당 행동 지침</label>
-                                <textarea id="catGuide" rows="3" required placeholder="예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠." class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText resize-none"></textarea>
+                                <label data-i18n="gb-label-guide" class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">밀당 행동 지침</label>
+                                <textarea id="catGuide" rows="3" required class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText resize-none"></textarea>
                             </div>
                             <button type="submit" class="w-full bg-dodamJade hover:bg-dodamJadeDark text-white py-2.5 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1 serif-font">
-                                <i class="fa-solid fa-feather-pointed"></i> 설명서 작성 완료
+                                <i class="fa-solid fa-feather-pointed"></i> <span data-i18n="gb-btn-submit">설명서 작성 완료</span>
                             </button>
                         </form>
                     </div>
@@ -455,7 +462,7 @@
                     <!-- List Card -->
                     <div class="md:col-span-2 space-y-4">
                         <div class="flex justify-between items-center px-1">
-                            <span class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/80">동료 집사들이 남긴 공략 지침서</span>
+                            <span data-i18n="gb-list-title" class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/80">동료 집사들이 남긴 공략 지침서</span>
                             <span id="board-count" class="text-[10px] xs:text-xs font-mono text-dodamJade bg-dodamJade/10 dark:bg-dodamJade/20 px-2 py-0.5 rounded-full font-semibold">설명서 2개</span>
                         </div>
                         
@@ -476,7 +483,7 @@
             <div class="text-2xl md:text-3xl text-dodamJade mb-3 md:mb-4">
                 <i class="fa-solid fa-heart animate-pulse"></i>
             </div>
-            <p class="serif-font text-sm xs:text-base md:text-lg mb-4 md:mb-6 leading-relaxed max-w-sm xs:max-w-md text-dodamCream dark:text-darkText/80">
+            <p data-i18n="footer-text" class="serif-font text-sm xs:text-base md:text-lg mb-4 md:mb-6 leading-relaxed max-w-sm xs:max-w-md text-dodamCream dark:text-darkText/80">
                 따로 또 같이, 집사 곁을 은은한 온도와 깊이 있는 시선으로 채워주는 세상의 모든 도담이들을 응원합니다.
             </p>
             <div class="w-12 h-[1px] bg-[#D1D1CD]/30 dark:bg-white/10 mb-6"></div>
@@ -488,6 +495,218 @@
 
     <!-- Script Logic -->
     <script>
+        // Language Database
+        const langData = {
+            ko: {
+                "nav-intro": "공략 수칙",
+                "nav-manual": "사용 지침서",
+                "nav-simulator": "밀당 시뮬레이터",
+                "nav-guestbook": "집사 광장",
+                "nav-cta": "밀당 시작하기",
+                "toggle-dark": "다크 모드로 전환",
+                "toggle-light": "라이트 모드로 전환",
+                "hero-tag": "Branding Concept Book & Live Preview",
+                "hero-title-prefix": "밀당 고수",
+                "hero-title-name": "도담이",
+                "hero-title-suffix": "사용 설명서",
+                "hero-sub": '"부르면 안 오지만 발소리엔 마중 나오고, 기분 좋으면 머리부터 들이미는 밀당 고수"',
+                "hero-btn-read": "수칙 정독하기",
+                "hero-btn-play": "실제 밀당 체험하기",
+                "intro-title": "⚠️ 사용 개시 전 필수 경고문구",
+                "intro-p": "본 웹사이트는 도담이(페르시안 친칠라 실버, 묘르신)의 미학적 정체성과 규칙적인 성격을 완벽히 숙지하여 집사 및 동료 애묘인들의 심장 마비를 방지하기 위한 용도로 제작되었습니다.",
+                "intro-warn-1": "집착 금지: 지나친 쓰다듬기는 대상의 즉각적인 방 이동(탈출) 프로토콜을 활성화시킵니다.",
+                "intro-warn-2": "공간 예우: '따로 또 같이' 지켜보는 거리에 감사함을 가져야 합니다.",
+                "intro-warn-3": "심쿵 주의: 덩치가 미니미하여 식빵을 굽는 실루엣이 상상 초월로 작고 하찮을 수 있습니다.",
+                "intro-agree": "최종 동의 여부: 집사 자격 확인됨",
+                "manual-badge": "USER MANUAL",
+                "manual-title": "도담 공략 매뉴얼 (5대 행동 지침)",
+                "manual-subtitle": "기획서 기반 도담이의 특색을 지침서로 구성했습니다.",
+                "ch1-title": "발소리 마중 프로토콜",
+                "ch1-desc": "평소엔 아무리 부르고 간청해도 도도함을 고수하지만, 집사의 복귀 발소리가 도어락 외부에서 감지되는 순간 기적적인 자동 마중 프로토콜이 구동됩니다. 현관 앞 대기와 야옹 소리를 무기로 집사의 귀갓길 보람을 증폭시키는 츤데레 지침의 핵심입니다.",
+                "ch1-status": "센서 감지 시: 야옹 발사 준비 완료",
+                "ch2-title": "쓰다듬기 & 머리 들이밀기 구간",
+                "ch2-desc": "주도권은 항상 도담이에게 있습니다. 본인이 직접 집사의 손길을 원해 다가와 머리를 들이밀 때만이 유일한 안심 쓰다듬기 골든타임입니다. 이 찬스를 발견하면 지체 없이 부드럽게 쓰다듬어 극상의 만족(야옹 연타)을 유도해야 합니다.",
+                "ch2-status": "머리를 부비는 모션 확인 후 스킨십 개시",
+                "ch3-title": "한 줌 미니 식빵 규격 제한",
+                "ch3-desc": "도담이는 보통의 묘체에 비해 다소 콤팩트한 체형을 유지 중입니다. 소파 위나 이불 위에 자리를 잡고 네 발을 안으로 굽혀 ‘식빵’을 제작할 때, 한 줌밖에 되지 않는 무공해 실루엣이 나타납니다. 섣부른 심장 가격에 주의하시고 눈으로만 감상하십시오.",
+                "ch3-status": "권장 감상 거리: 1미터 유지",
+                "ch4-title": "적당한 거리의 동반 법칙",
+                "ch4-desc": "따로 또 같이의 결정체. 잘 때는 집사 침대 발치에서 은은하게 체온을 느끼게 해주고, 활동할 때는 거실이나 안방 등 가족들이 있는 공간의 한구석에 조용히 합류해 자리를 보전합니다. 지나치게 붙어 치대진 않지만 절대 멀어지지도 않는 세련된 동행 스타일입니다.",
+                "ch4-status": "물리적 접근 경계값: 최소 30cm 이격 권장",
+                "ch5-title": "당당한 마이웨이 (외부인 대응 지침)",
+                "ch5-desc": "세월의 지혜(묘르신의 평화)를 획득하여 손님이 찾아오더라도 침대 밑에 고립되거나 떨지 않습니다. 다만 무례하게 선을 넘어 섣불리 쓰다듬려는 외부인에게는 소리 없이 우아하게 유령처럼 스르륵 물러나는 경고 없는 거부권을 선언합니다.",
+                "ch5-status-label": "외부인 터치 시",
+                "ch5-status-val": "회피율 99.9% 작동",
+                "sim-badge": "INTERACTIVE SIMULATION",
+                "sim-title": "도담이와의 실전 밀당 체험",
+                "sim-sub": "집사님의 가이드라인을 토대로 프로그래밍된 도담이 행동 반응로입니다. 하단의 버튼들을 클릭하여 도담이의 반응을 체크해 보세요!",
+                "sim-btn-call": "📢 \"도담아!\" 부르기",
+                "sim-btn-footstep": "🚪 \"터벅\" 발소리 내기",
+                "sim-btn-overpet": "🖐️ 억지로 계속 주무르기",
+                "sim-btn-headbutt": "💕 머리 쓰다듬기",
+                "sim-reset": "시뮬레이션 처음으로 되돌리기",
+                "gb-badge": "COMMUNITY BOARD",
+                "gb-title": "우리 고양이 사용 설명서 자랑",
+                "gb-sub": "도담이처럼 은근한 반전 매력이나 츤데레적 면모를 소유한 고양이를 자랑하고 다른 집사님들과 공감대를 나눠보세요.",
+                "gb-form-title": "내 반려묘 등록",
+                "gb-label-name": "고양이 이름",
+                "gb-label-trait": "핵심 매력 (1줄 요약)",
+                "gb-label-guide": "밀당 행동 지침",
+                "gb-btn-submit": "설명서 작성 완료",
+                "gb-list-title": "동료 집사들이 남긴 공략 지침서",
+                "footer-text": "따로 또 같이, 집사 곁을 은은한 온도와 깊이 있는 시선으로 채워주는 세상의 모든 도담이들을 응원합니다.",
+                "placeholder-name": "예: 나비",
+                "placeholder-trait": "예: 손가락을 주면 살짝 깨묾",
+                "placeholder-guide": "예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠."
+            },
+            en: {
+                "nav-intro": "Rules",
+                "nav-manual": "User Manual",
+                "nav-simulator": "Simulator",
+                "nav-guestbook": "Guestbook",
+                "nav-cta": "Start Simulator",
+                "toggle-dark": "Switch to Dark Mode",
+                "toggle-light": "Switch to Light Mode",
+                "hero-tag": "Branding Concept Book & Live Preview",
+                "hero-title-prefix": "Push & Pull Master",
+                "hero-title-name": "Dodam's",
+                "hero-title-suffix": "User Manual",
+                "hero-sub": '"Doesn\'t come when called, but greets at the sound of footsteps. Headbutts when happy—the master of push-and-pull."',
+                "hero-btn-read": "Read Rules First",
+                "hero-btn-play": "Try Simulator",
+                "intro-title": "⚠️ Mandatory Warnings Before Use",
+                "intro-p": "This website is designed for butlers and fellow cat lovers to fully understand the aesthetic and structured personality of Dodam (Persian Chinchilla Silver, Senior Cat) in order to prevent sudden cute-induced heart attacks.",
+                "intro-warn-1": "No Obsession: Excessive petting triggers an immediate room-escape protocol.",
+                "intro-warn-2": "Respect Space: Appreciate the sweet 'separate but together' companion distance.",
+                "intro-warn-3": "Loaf Alert: Because of his tiny build, his loaf silhouette is unbelievably small and harmless.",
+                "intro-agree": "Final Agreement: Butler status verified",
+                "manual-badge": "USER MANUAL",
+                "manual-title": "Dodam's Strategy (5 Golden Rules)",
+                "manual-subtitle": "A custom handbook curated based on Dodam's distinct characteristics.",
+                "ch1-title": "Footstep Greeting Protocol",
+                "ch1-desc": "He remains cold and ignoring no matter how much you call him, but the moment your footsteps are detected outside the digital lock, he triggers his greeting protocol, running to the door to meow.",
+                "ch1-status": "Sensor Status: Meow standby",
+                "ch2-title": "The Headbutt Petting Window",
+                "ch2-desc": "Dodam always holds the initiative. The only safe petting window is when he approaches on his own terms and rubs his head against your hand. Respond with gentle, warm strokes.",
+                "ch2-status": "Await headbutt behavior before petting",
+                "ch3-title": "Tiny Loaf Size Limit",
+                "ch3-desc": "Dodam maintains a quite compact build compared to average cats. When he tucks his legs inside to bake a loaf on the bed, his tiny harmless silhouette appears. Watch from afar with caution.",
+                "ch3-status": "Recommended distance: 1 meter",
+                "ch4-title": "The Golden Companion Distance",
+                "ch4-desc": "The essence of 'together yet independent'. He sleeps comfortably near your feet on the bed, and sits quietly in a corner whenever the family gathers in the living room.",
+                "ch4-status": "Recommended spacing: Keep at least 30cm",
+                "ch5-title": "Confident My-Way (Guest Protocol)",
+                "ch5-desc": "With the wisdom of age, he no longer trembles or hides under the bed when guests arrive. However, he maintains a strict boundary; if a stranger tries to pet him, he glides away silently like a ghost.",
+                "ch5-status-label": "Upon Stranger Touch",
+                "ch5-status-val": "99.9% Evade Rate Activated",
+                "sim-badge": "INTERACTIVE SIMULATION",
+                "sim-title": "Real-time Push & Pull Test",
+                "sim-sub": "A response module programmed precisely based on Dodam's real personality. Click the interaction buttons below to see how he reacts!",
+                "sim-btn-call": "📢 Call \"Dodam!\"",
+                "sim-btn-footstep": "🚪 Make Footstep Sounds",
+                "sim-btn-overpet": "🖐️ Overpet / Annoy Him",
+                "sim-btn-headbutt": "💕 Gentle Headbutt Petting",
+                "sim-reset": "Reset Simulation to Default",
+                "gb-badge": "COMMUNITY BOARD",
+                "gb-title": "Share Your Cat's Custom Manual",
+                "gb-sub": "Does your cat have a tsundere or quirky side like Dodam? Share their unique manual and connect with fellow butlers!",
+                "gb-form-title": "Register Your Cat",
+                "gb-label-name": "Cat Name",
+                "gb-label-trait": "Core Trait (1-line)",
+                "gb-label-guide": "Push & Pull Manual",
+                "gb-btn-submit": "Submit Manual",
+                "gb-list-title": "Manuals Left by Fellow Butlers",
+                "footer-text": "Cheering for all the beautiful cats in the world who warm our hearts and watch over us with their quiet, loving gaze.",
+                "placeholder-name": "e.g., Coco",
+                "placeholder-trait": "e.g., Bites gently when you offer a finger",
+                "placeholder-guide": "e.g., Ignores me all day but sleeps right next to my pillow at night."
+            }
+        };
+
+        // Interactive Simulator Responses (Multilingual)
+        const simData = {
+            ko: {
+                sleepy: '(도담이가 침대 발치에서 나른하게 자고 있습니다 💤)',
+                call: '📢 "..." (고개를 반대로 돌리며 모른 척합니다. 귓등만 아주 살짝 쫑긋거릴 뿐입니다.)',
+                footstep: '🚪 "야아아옹!" (현관 구석에 웅크리고 있다가 문 앞으로 쪼르르 마중 나와 야옹거립니다!)',
+                overpet: '🖐️ "(슥 일어나더니 기지개를 한 번 켜고 소리 없이 옆방 이불 위로 피신해 버립니다.)"',
+                headbutt: '💕 "골골골골... 야아아옹" (이마를 집사의 손과 손목에 들이밀어 비비며 무한 신뢰의 소리없는 애교를 발사합니다!)',
+                status_sleepy: 'STATUS: SLEEPY',
+                status_ignoring: 'STATUS: IGNORING',
+                status_greeting: 'STATUS: GREETING',
+                status_escaped: 'STATUS: ESCAPED',
+                status_joy: 'STATUS: EXTREME JOY',
+                toast_call: '도담이가 고개를 돌려 반응을 회피했습니다. 🤫',
+                toast_footstep: '현관 마중 프로토콜이 성공적으로 작동했습니다! 🎉',
+                toast_overpet: '선을 넘은 집착으로 도담이가 가버렸습니다. 💔',
+                toast_headbutt: '도담이의 기분 좋은 무한 애교가 시작되었습니다! 💖',
+                toast_reset: '시뮬레이션이 초기 상태로 리셋되었습니다. 💤',
+                toast_lang_ko: '🇰🇷 한국어로 변경되었습니다.',
+                toast_lang_en: '🇺🇸 Language changed to English.'
+            },
+            en: {
+                sleepy: '(Dodam is sleeping lazily at the foot of the bed 💤)',
+                call: '📢 "..." (He looks the other way, pretending not to hear you. Only his ears twitch slightly.)',
+                footstep: '🚪 "Meow!" (Huddled near the entrance, he runs up to the door and meows to greet you!)',
+                overpet: '🖐️ "(He slowly gets up, stretches, and silently escapes to another room.)"',
+                headbutt: '💕 "Purr, purr... Meow" (He rubs his forehead against your hand and wrist, showering you with affection!)',
+                status_sleepy: 'STATUS: SLEEPY',
+                status_ignoring: 'STATUS: IGNORING',
+                status_greeting: 'STATUS: GREETING',
+                status_escaped: 'STATUS: ESCAPED',
+                status_joy: 'STATUS: EXTREME JOY',
+                toast_call: 'Dodam turned his head away and ignored you. 🤫',
+                toast_footstep: 'Greeting protocol successfully activated! 🎉',
+                toast_overpet: 'You crossed the line. Dodam walked away. 💔',
+                toast_headbutt: 'Infinite affection mode activated! 💖',
+                toast_reset: 'Simulation reset to default sleepy state. 💤',
+                toast_lang_ko: '🇰🇷 한국어로 변경되었습니다.',
+                toast_lang_en: '🇺🇸 Language changed to English.'
+            }
+        };
+
+        // Seed data for the guestbook in dual languages
+        const defaultManuals = {
+            ko: [
+                {
+                    id: 1,
+                    name: "코코",
+                    species: "코리안 쇼트헤어",
+                    tag: "츤데레 요정",
+                    trait: "컴퓨터 켜면 키보드 정중앙에 수직 점프해서 착지",
+                    guide: "절대 평소엔 쓰다듬는걸 귀찮아하지만 재택근무를 켜거나 노트북만 폈다 하면 귀신같이 키보드 위를 장악합니다. 비키라고 하면 가벼운 꾹꾹이를 하사하며 타협을 요구합니다."
+                },
+                {
+                    id: 2,
+                    name: "레오",
+                    species: "러시안 블루",
+                    tag: "눈빛 레이저",
+                    trait: "문지방 너머에서 레이저 눈빛으로 보초 서기",
+                    guide: "절대로 방 안으로는 안 들어오는데 꼭 방문 바로 앞에서 한 발만 들여놓은 채 가만히 쳐다봅니다. 부르면 뒤돌아서 가버리고, 모른 척하면 다시 와서 지켜보는 고도의 스토커 스타일입니다."
+                }
+            ],
+            en: [
+                {
+                    id: 1,
+                    name: "Coco",
+                    species: "Domestic Shorthair",
+                    tag: "Tsundere Pixie",
+                    trait: "Launches onto the keyboard when the computer turns on",
+                    guide: "Usually hates being touched, but the split second you open your laptop to work, she dominates the keyboard. Pushing her away only results in demand kneading."
+                },
+                {
+                    id: 2,
+                    name: "Leo",
+                    species: "Russian Blue",
+                    tag: "Laser Gaze",
+                    trait: "Staring like a sentinel from just outside the doorway",
+                    guide: "Never steps inside the room, but stands right on the threshold staring intently. If called, he walks away; if ignored, he returns to monitor you in stalker mode."
+                }
+            ]
+        };
+
+        let currentLang = 'ko';
+
         // Toggle mobile hamburger navigation menu
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -507,12 +726,53 @@
             if (isDark) {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                showToast('🌞 라이트 모드로 전환되었습니다.');
+                showToast(currentLang === 'ko' ? '🌞 라이트 모드로 전환되었습니다.' : '🌞 Switched to Light Mode.');
             } else {
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
-                showToast('🌙 다크 모드로 전환되었습니다.');
+                showToast(currentLang === 'ko' ? '🌙 다크 모드로 전환되었습니다.' : '🌙 Switched to Dark Mode.');
             }
+        }
+
+        // Language Switch Handler
+        function toggleLanguage() {
+            currentLang = currentLang === 'ko' ? 'en' : 'ko';
+            storageHelper.set('lang', currentLang);
+            
+            updateLanguage();
+            showToast(currentLang === 'ko' ? simData.ko.toast_lang_ko : simData.en.toast_lang_en);
+        }
+
+        // Apply Language Pack
+        function updateLanguage() {
+            const dict = langData[currentLang];
+            
+            // 1. Translate static text nodes with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerText = dict[key];
+                }
+            });
+
+            // 2. Toggle button label text
+            document.getElementById('lang-btn-text').innerText = currentLang === 'ko' ? 'English' : '한국어';
+
+            // 3. Form Input Placeholders
+            document.getElementById('catName').placeholder = dict['placeholder-name'];
+            document.getElementById('catTrait').placeholder = dict['placeholder-trait'];
+            document.getElementById('catGuide').placeholder = dict['placeholder-guide'];
+
+            // 4. Update dynamic state elements (Simulator defaults)
+            const tag = document.getElementById('sim-status-tag');
+            const bubble = document.getElementById('sim-bubble');
+            if (tag.innerText.includes('SLEEPY')) {
+                tag.innerText = simData[currentLang].status_sleepy;
+                bubble.innerText = simData[currentLang].sleepy;
+            }
+
+            // 5. Re-render Guestbook list
+            renderAllManuals();
         }
 
         // Toast Alert System (Floating behavior)
@@ -551,85 +811,70 @@
             }
         };
 
-        // 초기 화면에 기본으로 노출될 동료 집사들의 시드 데이터
-        const defaultManuals = [
-            {
-                id: 1,
-                name: "코코",
-                species: "코리안 쇼트헤어",
-                tag: "츤데레 요정",
-                trait: "컴퓨터 켜면 키보드 정중앙에 수직 점프해서 착지",
-                guide: "절대 평소엔 쓰다듬는걸 귀찮아하지만 재택근무를 켜거나 노트북만 폈다 하면 귀신같이 키보드 위를 장악합니다. 비키라고 하면 가벼운 꾹꾹이를 하사하며 타협을 요구합니다."
-            },
-            {
-                id: 2,
-                name: "레오",
-                species: "러시안 블루",
-                tag: "눈빛 레이저",
-                trait: "문지방 너머에서 레이저 눈빛으로 보초 서기",
-                guide: "절대로 방 안으로는 안 들어오는데 꼭 방문 바로 앞에서 한 발만 들여놓은 채 가만히 쳐다봅니다. 부르면 뒤돌아서 가버리고, 모른 척하면 다시 와서 지켜보는 고도의 스토커 스타일입니다."
-            }
-        ];
-
         let customManuals = [];
 
         // Interactive Simulator Logic
+        let currentSimAction = 'sleepy';
         function interact(action) {
             const bubble = document.getElementById('sim-bubble');
             const cat = document.getElementById('sim-cat-visual');
             const tag = document.getElementById('sim-status-tag');
+            const cur = simData[currentLang];
 
             // Reset dynamic states before applying new styles to prevent stack issues
             cat.style.opacity = '1';
             cat.style.transform = 'none';
 
             if (action === 'call') {
-                bubble.innerText = '📢 "..." (고개를 반대로 돌리며 모른 척합니다. 귓등만 아주 살짝 쫑긋거릴 뿐입니다.)';
+                bubble.innerText = cur.call;
                 cat.innerText = '🐈‍⬛';
                 cat.style.transform = 'scale(0.95) rotateY(180deg)';
-                tag.innerText = 'STATUS: IGNORING';
+                tag.innerText = cur.status_ignoring;
                 tag.className = 'absolute bottom-4 right-4 bg-orange-100 dark:bg-orange-950/40 text-orange-700 dark:text-orange-400 text-[10px] px-2 py-0.5 rounded font-mono font-bold uppercase';
-                showToast('도담이가 고개를 돌려 반응을 회피했습니다. 🤫');
+                showToast(cur.toast_call);
             } 
             else if (action === 'footstep') {
-                bubble.innerText = '🚪 "야아아옹!" (현관 구석에 웅크리고 있다가 문 앞으로 쪼르르 마중 나와 야옹거립니다!)';
+                bubble.innerText = cur.footstep;
                 cat.innerText = '😻🚪';
                 cat.style.transform = 'scale(1.1) translateY(-10px)';
-                tag.innerText = 'STATUS: GREETING';
+                tag.innerText = cur.status_greeting;
                 tag.className = 'absolute bottom-4 right-4 bg-dodamJade/20 text-dodamJade font-mono font-bold text-[10px] px-2 py-0.5 rounded uppercase';
-                showToast('현관 마중 프로토콜이 성공적으로 작동했습니다! 🎉');
+                showToast(cur.toast_footstep);
             } 
             else if (action === 'overpet') {
-                bubble.innerText = '🖐️ "(슥 일어나더니 기지개를 한 번 켜고 소리 없이 옆방 이불 위로 피신해 버립니다.)"';
+                bubble.innerText = cur.overpet;
                 cat.innerText = '🏃‍♂️💨';
                 cat.style.transform = 'translateX(-30px)';
                 cat.style.opacity = '0.5';
-                tag.innerText = 'STATUS: ESCAPED';
+                tag.innerText = cur.status_escaped;
                 tag.className = 'absolute bottom-4 right-4 bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] px-2 py-0.5 rounded font-mono font-bold uppercase';
-                showToast('선을 넘은 집착으로 도담이가 가버렸습니다. 💔');
+                showToast(cur.toast_overpet);
             } 
             else if (action === 'headbutt') {
-                bubble.innerText = '💕 "골골골골... 야아아옹" (이마를 집사의 손과 손목에 들이밀어 비비며 무한 신뢰의 소리없는 애교를 발사합니다!)';
+                bubble.innerText = cur.headbutt;
                 cat.innerText = '🥰😽';
                 cat.style.transform = 'scale(1.15) rotate(5deg)';
-                tag.innerText = 'STATUS: EXTREME JOY';
+                tag.innerText = cur.status_joy;
                 tag.className = 'absolute bottom-4 right-4 bg-pink-100 dark:bg-pink-950/40 text-pink-700 dark:text-pink-400 text-[10px] px-2 py-0.5 rounded font-mono font-bold uppercase';
-                showToast('도담이의 기분 좋은 무한 애교가 시작되었습니다! 💖');
+                showToast(cur.toast_headbutt);
             }
+            currentSimAction = action;
         }
 
         function resetSim() {
             const bubble = document.getElementById('sim-bubble');
             const cat = document.getElementById('sim-cat-visual');
             const tag = document.getElementById('sim-status-tag');
+            const cur = simData[currentLang];
 
-            bubble.innerText = '(도담이가 침대 발치에서 나른하게 자고 있습니다 💤)';
+            bubble.innerText = cur.sleepy;
             cat.innerText = '🐈‍⬛';
             cat.style.transform = 'scale(1) rotate(0deg)';
             cat.style.opacity = '1';
-            tag.innerText = 'STATUS: SLEEPY';
+            tag.innerText = cur.status_sleepy;
             tag.className = 'absolute bottom-4 right-4 bg-dodamCharcoal/10 dark:bg-white/10 text-[#4A4A4A] dark:text-darkText/80 text-[10px] px-2 py-0.5 rounded font-mono font-bold uppercase';
-            showToast('시뮬레이션이 초기 상태로 리셋되었습니다. 💤');
+            showToast(cur.toast_reset);
+            currentSimAction = 'sleepy';
         }
 
         // 방명록 초기화 및 렌더링 제어
@@ -658,8 +903,8 @@
                 renderManualCard(item, false, true);
             });
 
-            // 2. 기본 가이드(시드 데이터) 렌더링
-            defaultManuals.forEach(item => {
+            // 2. 현재 선택 언어에 부합하는 기본 가이드(시드 데이터) 렌더링
+            defaultManuals[currentLang].forEach(item => {
                 renderManualCard(item, false, false);
             });
 
@@ -680,8 +925,8 @@
                 name,
                 trait,
                 guide,
-                species: "반려묘",
-                tag: "동료 집사"
+                species: currentLang === 'ko' ? "반려묘" : "My Cat",
+                tag: currentLang === 'ko' ? "동료 집사" : "Butler"
             };
 
             // 메모리 및 브라우저 영구 저장소에 추가
@@ -692,7 +937,10 @@
             renderAllManuals();
             
             document.getElementById('catForm').reset();
-            showToast(`📝 ${name}의 사용 설명서가 안전하게 영구 저장되었습니다!`);
+            const successMsg = currentLang === 'ko' 
+                ? `📝 ${name}의 사용 설명서가 안전하게 영구 저장되었습니다!` 
+                : `📝 ${name}'s user manual has been successfully saved!`;
+            showToast(successMsg);
         }
 
         function renderManualCard(item, prepend = false, isCustom = false) {
@@ -702,8 +950,8 @@
             card.className = 'bg-white dark:bg-darkCard border border-dodamJade/20 dark:border-white/10 rounded-2xl p-4 md:p-5 shadow-sm transition-all duration-300 transform hover:-translate-y-0.5';
             
             const badgeColor = 'bg-dodamJade/10 dark:bg-dodamJade/20 text-dodamJade';
-            const subText = item.species ? item.species : '반려묘';
-            const tagText = item.tag ? item.tag : '동료 집사';
+            const subText = item.species ? item.species : (currentLang === 'ko' ? '반려묘' : 'My Cat');
+            const tagText = item.tag ? item.tag : (currentLang === 'ko' ? '동료 집사' : 'Butler');
 
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-2">
@@ -724,8 +972,9 @@
         }
 
         function updateBoardCount() {
-            const totalCount = defaultManuals.length + customManuals.length;
-            document.getElementById('board-count').innerText = `설명서 ${totalCount}개`;
+            const totalCount = defaultManuals[currentLang].length + customManuals.length;
+            const text = currentLang === 'ko' ? `설명서 ${totalCount}개` : `${totalCount} Manuals`;
+            document.getElementById('board-count').innerText = text;
         }
 
         function escapeHTML(str) {
@@ -737,7 +986,7 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // Ambient Floating Particles Animation (Cozy & Subtle atmosphere)
+        // Ambient Floating Particles Animation
         const canvas = document.getElementById('ambient-particles');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -752,17 +1001,16 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.0 + 1.0; // 시각적으로 식별 가능한 크기로 최적화 (1.0px ~ 3.0px)
-                this.speedX = (Math.random() - 0.5) * 0.1; // 자연스러운 흔들림
-                this.speedY = -Math.random() * 0.15 - 0.05; // 아주 미세하게 위로 둥둥 떠오름
-                this.opacity = Math.random() * 0.35 + 0.15; // 존재감이 드러나도록 불투명도 향상 (15% ~ 50%)
+                this.size = Math.random() * 2.0 + 1.0; 
+                this.speedX = (Math.random() - 0.5) * 0.1; 
+                this.speedY = -Math.random() * 0.15 - 0.05; 
+                this.opacity = Math.random() * 0.35 + 0.15; 
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
 
-                // Loop particles smoothly when they go out of bounds
                 if (this.y < 0) {
                     this.y = canvas.height;
                     this.x = Math.random() * canvas.width;
@@ -773,10 +1021,9 @@
 
             draw() {
                 const isDark = document.documentElement.classList.contains('dark');
-                // 테마별 어울림을 극대화하는 파티클 컬러 매칭
                 ctx.fillStyle = isDark 
-                    ? `rgba(236, 236, 233, ${this.opacity})` // 다크모드: 밤하늘의 따스한 먼지 필터
-                    : `rgba(124, 161, 144, ${this.opacity * 0.8})`; // 라이트모드: 신비로운 옥색 빛가루
+                    ? `rgba(236, 236, 233, ${this.opacity})` 
+                    : `rgba(124, 161, 144, ${this.opacity * 0.8})`; 
                 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -786,7 +1033,6 @@
 
         function initParticles() {
             particlesArray = [];
-            // Dynamically scale particle count based on screen area to avoid cluttering
             const numberOfParticles = Math.floor((canvas.width * canvas.height) / 32000);
             const clampedCount = Math.min(Math.max(numberOfParticles, 20), 60);
 
@@ -814,7 +1060,7 @@
             const scrollPos = window.scrollY || document.documentElement.scrollTop;
             
             sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100; // 헤더 오프셋 고려
+                const sectionTop = section.offsetTop - 100; 
                 const sectionHeight = section.offsetHeight;
                 
                 if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
@@ -822,7 +1068,6 @@
                 }
             });
 
-            // 데스크탑 메뉴 활성화 클래스 조절
             navLinks.forEach(link => {
                 link.classList.remove('text-dodamJade', 'bg-dodamJade/10', 'dark:bg-dodamJade/20');
                 if (link.getAttribute('href') === `#${currentSectionId}`) {
@@ -830,7 +1075,6 @@
                 }
             });
 
-            // 모바일 메뉴 활성화 클래스 조절
             mobileNavLinks.forEach(link => {
                 link.classList.remove('text-dodamJade');
                 if (link.getAttribute('href') === `#${currentSectionId}`) {
@@ -839,12 +1083,20 @@
             });
         }
 
-        // Window resize & scroll event handler
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('scroll', activeMenuOnScroll);
 
         // 로드 시 초기 호출 통합
         document.addEventListener('DOMContentLoaded', () => {
+            // Load saved language or default to ko
+            const savedLang = storageHelper.get('lang');
+            if (savedLang === 'ko' || savedLang === 'en') {
+                currentLang = savedLang;
+            } else {
+                currentLang = 'ko';
+            }
+            
+            updateLanguage();
             initGuestbook();
             resizeCanvas();
             animateParticles();
