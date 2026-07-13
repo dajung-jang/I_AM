@@ -51,26 +51,6 @@
         .serif-font {
             font-family: 'Gowun Batang', serif;
         }
-        /* Smooth transitions for tabs */
-        .tab-content {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-        }
-        .tab-content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Custom scrollbar for mobile dynamic tab-bar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
         /* Custom smooth scroll behavior */
         html {
             scroll-behavior: smooth;
@@ -82,6 +62,17 @@
         }
         .cat-heartbeat {
             animation: custom-pulse 3s infinite ease-in-out;
+        }
+        /* Mobile menu smooth slide down */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        #mobile-menu.open {
+            max-height: 300px;
+            opacity: 1;
         }
     </style>
     <script>
@@ -97,7 +88,7 @@
 </head>
 <body class="overflow-x-hidden bg-dodamBg dark:bg-darkBg text-dodamCharcoal dark:text-darkText transition-colors duration-300">
 
-    <!-- Ambient Floating Particles Canvas (z-index를 z-[1]로 올려 배경색 위로 렌더링되게 수정) -->
+    <!-- Ambient Floating Particles Canvas -->
     <canvas id="ambient-particles" class="fixed inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
 
     <!-- Toast Notification Popup (Responsive position) -->
@@ -106,24 +97,51 @@
     </div>
 
     <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-50 bg-[#F5F5F3]/80 dark:bg-darkBg/80 backdrop-blur-md border-b border-[#4A4A4A]/10 dark:border-white/10 transition-colors duration-300">
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#F5F5F3]/90 dark:bg-darkBg/90 backdrop-blur-md border-b border-[#4A4A4A]/10 dark:border-white/10 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 xs:px-6 py-3.5 flex justify-between items-center">
-            <a href="#" onclick="switchTab('tab-intro'); return false;" class="serif-font text-lg xs:text-xl font-bold text-dodamCharcoal dark:text-darkText flex items-center gap-1.5 shrink-0">
+            <a href="#" class="serif-font text-lg xs:text-xl font-bold text-dodamCharcoal dark:text-darkText flex items-center gap-1.5 shrink-0">
                 <span class="text-dodamJade"><i class="fa-solid fa-cat"></i></span> 도담.kr
             </a>
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-dodamCharcoal/80 dark:text-darkText/80">
-                <a href="#tab-section" onclick="switchTab('tab-intro')" class="nav-link-item hover:text-dodamJade dark:hover:text-dodamJade transition-colors">공략 수칙</a>
-                <a href="#tab-section" onclick="switchTab('tab-manual')" class="nav-link-item hover:text-dodamJade dark:hover:text-dodamJade transition-colors">사용 지침서</a>
-                <a href="#tab-section" onclick="switchTab('tab-simulator')" class="nav-link-item hover:text-dodamJade dark:hover:text-dodamJade transition-colors">밀당 시뮬레이터</a>
-                <a href="#tab-section" onclick="switchTab('tab-guestbook')" class="nav-link-item hover:text-dodamJade dark:hover:text-dodamJade transition-colors">집사 광장</a>
+            
+            <!-- Desktop Tab Menu -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-dodamCharcoal/80 dark:text-darkText/80">
+                <a href="#tab-intro" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">공략 수칙</a>
+                <a href="#tab-manual" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">사용 지침서</a>
+                <a href="#tab-simulator" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">밀당 시뮬레이터</a>
+                <a href="#tab-guestbook" class="nav-link px-3 py-1.5 rounded-full hover:text-dodamJade dark:hover:text-dodamJade transition-all duration-200">집사 광장</a>
             </div>
-            <a href="#tab-section" onclick="switchTab('tab-simulator')" class="bg-dodamJade hover:bg-dodamJadeDark text-white px-3 py-1.5 xs:px-4 xs:py-2 rounded-full text-[11px] xs:text-xs transition-all serif-font font-bold shadow-sm shrink-0">
-                밀당 시작하기
-            </a>
+
+            <div class="flex items-center gap-2">
+                <a href="#tab-simulator" class="hidden sm:inline-block bg-dodamJade hover:bg-dodamJadeDark text-white px-4 py-2 rounded-full text-xs transition-all serif-font font-bold shadow-sm shrink-0">
+                    밀당 시작하기
+                </a>
+                <!-- Mobile Menu Button (Hamburger) -->
+                <button onclick="toggleMobileMenu()" class="inline-block md:hidden text-xl p-2 text-dodamCharcoal dark:text-darkText hover:text-dodamJade dark:hover:text-dodamJade focus:outline-none transition-colors">
+                    <i id="menu-icon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dynamic Dropdown Tab Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white/95 dark:bg-darkCard/95 border-t border-[#4A4A4A]/5 dark:border-white/5 shadow-inner">
+            <div class="flex flex-col px-6 py-4 gap-4 text-sm font-semibold serif-font text-dodamCharcoal dark:text-darkText">
+                <a href="#tab-intro" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
+                    <i class="fa-solid fa-triangle-exclamation w-5 text-center text-red-400"></i> 공략 수칙
+                </a>
+                <a href="#tab-manual" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
+                    <i class="fa-solid fa-book w-5 text-center text-dodamJade"></i> 사용 지침서
+                </a>
+                <a href="#tab-simulator" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
+                    <i class="fa-solid fa-gamepad w-5 text-center text-dodamJade"></i> 밀당 시뮬레이터
+                </a>
+                <a href="#tab-guestbook" onclick="toggleMobileMenu()" class="mobile-nav-link flex items-center gap-2 py-1 hover:text-dodamJade">
+                    <i class="fa-solid fa-comments w-5 text-center text-dodamJade"></i> 집사 광장
+                </a>
+            </div>
         </div>
     </nav>
 
-    <!-- 콘텐츠 레이어를 파티클 캔버스 위로 올리기 위해 z-10 추가 -->
+    <!-- Header / Hero Section -->
     <header class="min-h-screen flex flex-col justify-center items-center relative pt-28 pb-12 px-4 xs:px-6 overflow-hidden z-10">
         <!-- Ambient Decorative Shapes -->
         <div class="absolute top-1/4 left-10 w-48 h-48 md:w-64 md:h-64 bg-dodamJade/5 rounded-full blur-3xl -z-10 transition-all"></div>
@@ -131,7 +149,7 @@
         
         <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
             
-            <!-- Beautiful Light / Dark Mode Toggle Button (Positioned between Header and Cat Graphic) -->
+            <!-- Beautiful Light / Dark Mode Toggle Button -->
             <div class="mb-8 z-10">
                 <button onclick="toggleDarkMode()" id="theme-toggle" class="flex items-center gap-2.5 bg-white dark:bg-darkCard px-5 py-2.5 rounded-full border border-dodamCharcoal/15 dark:border-white/10 text-xs md:text-sm font-semibold text-dodamCharcoal dark:text-darkText shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md focus:outline-none">
                     <span class="dark:hidden flex items-center gap-2">
@@ -191,55 +209,34 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center w-full sm:w-auto px-4">
-                <a href="#tab-section" onclick="switchTab('tab-intro')" class="w-full sm:w-auto text-center bg-dodamJade hover:bg-dodamJadeDark text-white px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all shadow-md transform hover:-translate-y-0.5 serif-font">
+                <a href="#tab-intro" class="w-full sm:w-auto text-center bg-dodamJade hover:bg-dodamJadeDark text-white px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all shadow-md transform hover:-translate-y-0.5 serif-font">
                     <i class="fa-regular fa-bookmark mr-2"></i>수칙 정독하기
                 </a>
-                <a href="#tab-section" onclick="switchTab('tab-simulator')" class="w-full sm:w-auto text-center border border-dodamCharcoal/30 dark:border-white/30 hover:bg-dodamCream/50 dark:hover:bg-darkCard text-dodamCharcoal dark:text-darkText px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font">
+                <a href="#tab-simulator" class="w-full sm:w-auto text-center border border-dodamCharcoal/30 dark:border-white/30 hover:bg-dodamCream/50 dark:hover:bg-darkCard text-dodamCharcoal dark:text-darkText px-6 py-3 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font">
                     실제 밀당 체험하기 <i class="fa-solid fa-play ml-1 text-[10px]"></i>
                 </a>
             </div>
         </div>
 
         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 hidden xs:flex flex-col items-center gap-1 opacity-50 animate-bounce text-dodamCharcoal dark:text-darkText">
-            <span class="text-[9px] uppercase tracking-widest font-sans">Scroll Tabs</span>
+            <span class="text-[9px] uppercase tracking-widest font-sans">Scroll Down</span>
             <i class="fa-solid fa-chevron-down text-[10px]"></i>
         </div>
     </header>
 
-    <section id="tab-section" class="sticky top-[53px] z-40 bg-dodamBg/95 dark:bg-darkBg/95 backdrop-blur-md border-y border-[#4A4A4A]/10 dark:border-white/10 shadow-sm py-3 px-4 transition-colors duration-300">
-        <div class="max-w-4xl mx-auto flex items-center justify-start md:justify-center overflow-x-auto no-scrollbar gap-2 scroll-smooth">
-            <!-- Tab Button 1: Intro -->
-            <button onclick="switchTab('tab-intro')" id="btn-tab-intro" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-dodamJade text-white border-dodamJade shadow-sm">
-                ⚠️ 공략 수칙
-            </button>
-            <!-- Tab Button 2: Manual -->
-            <button onclick="switchTab('tab-manual')" id="btn-tab-manual" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-white dark:bg-darkCard text-dodamCharcoal dark:text-darkText border-[#4A4A4A]/20 dark:border-white/10 hover:bg-dodamCream dark:hover:bg-dodamCharcoal">
-                📖 사용 지침서
-            </button>
-            <!-- Tab Button 3: Simulator -->
-            <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-white dark:bg-darkCard text-dodamCharcoal dark:text-darkText border-[#4A4A4A]/20 dark:border-white/10 hover:bg-dodamCream dark:hover:bg-dodamCharcoal">
-                🎮 밀당 시뮬레이터
-            </button>
-            <!-- Tab Button 4: Guestbook -->
-            <button onclick="switchTab('tab-guestbook')" id="btn-tab-guestbook" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-white dark:bg-darkCard text-dodamCharcoal dark:text-darkText border-[#4A4A4A]/20 dark:border-white/10 hover:bg-dodamCream dark:hover:bg-dodamCharcoal">
-                💬 집사 광장
-            </button>
-        </div>
-    </section>
+    <!-- Main Contents Container -->
+    <main class="relative z-10">
 
-    <!-- 콘텐츠 레이어를 파티클 캔버스 위로 올리기 위해 z-10 추가 -->
-    <main class="min-h-[500px] relative z-10">
-
-        <!-- TAB 1: INTRO SECTION -->
-        <div id="tab-intro" class="tab-content active py-16 md:py-24 px-4 xs:px-6">
+        <!-- SECTION 1: INTRO SECTION (scroll-mt-20 추가하여 상단 고정 바 간격 최적화) -->
+        <section id="tab-intro" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-white dark:bg-darkBg transition-colors duration-300">
             <div class="max-w-3xl mx-auto text-center">
-                <div class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-red-50 dark:bg-red-950 text-red-500 dark:text-red-400 mb-5 border border-red-100 dark:border-red-900">
+                <div class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-red-50 dark:bg-red-950/40 text-red-500 dark:text-red-400 mb-5 border border-red-100 dark:border-red-900">
                     <i class="fa-solid fa-triangle-exclamation text-base"></i>
                 </div>
                 <h2 class="serif-font text-xl xs:text-2xl md:text-3xl font-bold text-dodamCharcoal dark:text-white mb-4 md:mb-6">
                     ⚠️ 사용 개시 전 필수 경고문구
                 </h2>
-                <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 xs:p-6 md:p-8 text-left shadow-sm max-w-2xl mx-auto space-y-4">
+                <div class="bg-dodamBg dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 xs:p-6 md:p-8 text-left shadow-sm max-w-2xl mx-auto space-y-4 transition-colors duration-300">
                     <p class="serif-font text-dodamCharcoal/90 dark:text-darkText/90 leading-relaxed text-xs xs:text-sm md:text-base">
                         본 웹사이트는 <strong>도담이(페르시안 친칠라 실버, 묘르신)</strong>의 미학적 정체성과 규칙적인 성격을 완벽히 숙지하여 집사 및 동료 애묘인들의 심장 마비를 방지하기 위한 용도로 제작되었습니다.
                     </p>
@@ -257,117 +254,119 @@
                             <span>심쿵 주의: 덩치가 미니미하여 식빵을 굽는 실루엣이 상상 초월로 작고 하찮을 수 있습니다.</span>
                         </div>
                     </div>
-                    <div class="bg-dodamBg dark:bg-darkBg p-3 rounded-xl flex items-center justify-between text-[11px] text-dodamCharcoal/70 dark:text-darkText/70 transition-colors duration-300">
+                    <div class="bg-white dark:bg-darkBg p-3 rounded-xl flex items-center justify-between text-[11px] text-dodamCharcoal/70 dark:text-darkText/70 transition-colors duration-300">
                         <span>최종 동의 여부: <strong>집사 자격 확인됨</strong></span>
                         <i class="fa-solid fa-circle-check text-dodamJade text-sm xs:text-base"></i>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- TAB 2: MANUAL SECTION -->
-        <div id="tab-manual" class="tab-content py-16 md:py-24 px-4 xs:px-6 max-w-6xl mx-auto">
-            <div class="text-center mb-10 md:mb-16">
-                <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">USER MANUAL</span>
-                <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">도담 공략 매뉴얼 (5대 행동 지침)</h2>
-                <p class="text-xs xs:text-sm md:text-base text-dodamCharcoal/60 dark:text-darkText/60 mt-1 max-w-lg mx-auto">기획서 기반 도담이의 특색을 지침서로 구성했습니다.</p>
+        <!-- SECTION 2: MANUAL SECTION -->
+        <section id="tab-manual" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-[#ECECE9]/30 dark:bg-darkCard/25 border-y border-[#4A4A4A]/5 dark:border-white/5 transition-colors duration-300">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 md:mb-20">
+                    <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">USER MANUAL</span>
+                    <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">도담 공략 매뉴얼 (5대 행동 지침)</h2>
+                    <p class="text-xs xs:text-sm md:text-base text-dodamCharcoal/60 dark:text-darkText/60 mt-1 max-w-lg mx-auto">기획서 기반 도담이의 특색을 지침서로 구성했습니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
+                    <!-- Chapter 1 -->
+                    <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-2xl md:text-3xl">🚪</span>
+                                <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 01</span>
+                            </div>
+                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">발소리 마중 프로토콜</h3>
+                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                                평소엔 아무리 부르고 간청해도 도도함을 고수하지만, 집사의 복귀 발소리가 도어락 외부에서 감지되는 순간 기적적인 자동 마중 프로토콜이 구동됩니다. 현관 앞 대기와 야옹 소리를 무기로 집사의 귀갓길 보람을 증폭시키는 츤데레 지침의 핵심입니다.
+                            </p>
+                        </div>
+                        <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-dodamJade animate-ping"></span>
+                            센서 감지 시: 야옹 발사 준비 완료
+                        </div>
+                    </div>
+
+                    <!-- Chapter 2 -->
+                    <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-2xl md:text-3xl">💕</span>
+                                <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 02</span>
+                            </div>
+                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">쓰다듬기 & 머리 들이밀기 구간</h3>
+                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                                주도권은 항상 도담이에게 있습니다. 본인이 직접 집사의 손길을 원해 다가와 머리를 들이밀 때만이 유일한 안심 쓰다듬기 골든타임입니다. 이 찬스를 발견하면 지체 없이 부드럽게 쓰다듬어 극상의 만족(야옹 연타)을 유도해야 합니다.
+                            </p>
+                        </div>
+                        <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
+                            머리를 부비는 모션 확인 후 스킨십 개시
+                        </div>
+                    </div>
+
+                    <!-- Chapter 3 -->
+                    <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-2xl md:text-3xl">🍞</span>
+                                <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 03</span>
+                            </div>
+                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">한 줌 미니 식빵 규격 제한</h3>
+                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                                도담이는 보통의 묘체에 비해 다소 콤팩트한 체형을 유지 중입니다. 소파 위나 이불 위에 자리를 잡고 네 발을 안으로 굽혀 ‘식빵’을 제작할 때, 한 줌밖에 되지 않는 무공해 실루엣이 나타납니다. 섣부른 심장 가격에 주의하시고 눈으로만 감상하십시오.
+                            </p>
+                        </div>
+                        <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
+                            권장 감상 거리: 1미터 유지
+                        </div>
+                    </div>
+
+                    <!-- Chapter 4 -->
+                    <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-2xl md:text-3xl">🛏️</span>
+                                <span class="text-[10px] font-mono bg-[#ECECE9] dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 04</span>
+                            </div>
+                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">적당한 거리의 동반 법칙</h3>
+                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                                따로 또 같이의 결정체. 잘 때는 집사 침대 발치에서 은은하게 체온을 느끼게 해주고, 활동할 때는 거실이나 안방 등 가족들이 있는 공간의 한구석에 조용히 합류해 자리를 보전합니다. 지나치게 붙어 치대진 않지만 절대 멀어지지도 않는 세련된 동행 스타일입니다.
+                            </p>
+                        </div>
+                        <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
+                            물리적 접근 경계값: 최소 30cm 이격 권장
+                        </div>
+                    </div>
+
+                    <!-- Chapter 5 -->
+                    <div class="md:col-span-2 bg-[#ECECE9]/60 dark:bg-[#252523]/40 border border-dodamJade/20 dark:border-dodamJade/30 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-5 md:gap-6 hover:shadow-md transition-all duration-300">
+                        <div class="max-w-2xl">
+                            <div class="flex gap-2 items-center mb-2 md:mb-3">
+                                <span class="text-xl md:text-2xl">🐾</span>
+                                <span class="text-[10px] font-mono bg-dodamJade/10 text-dodamJade font-bold px-2 py-0.5 rounded">CHAPTER 05</span>
+                            </div>
+                            <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-1.5">당당한 마이웨이 (외부인 대응 지침)</h3>
+                            <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
+                                세월의 지혜(묘르신의 평화)를 획득하여 손님이 찾아오더라도 침대 밑에 고립되거나 떨지 않습니다. 다만 무례하게 선을 넘어 섣불리 쓰다듬으려는 외부인에게는 소리 없이 우아하게 유령처럼 스르륵 물러나는 경고 없는 거부권을 선언합니다.
+                            </p>
+                        </div>
+                        <div class="bg-white dark:bg-darkBg px-4 py-3.5 md:px-5 md:py-4 rounded-xl border border-dodamJade/10 dark:border-white/10 text-center w-full md:w-auto shrink-0 shadow-sm mt-2 md:mt-0 transition-all duration-300">
+                            <div class="text-[10px] xs:text-xs text-dodamCharcoal/60 dark:text-darkText/60 mb-0.5">외부인 터치 시</div>
+                            <span class="font-sans font-bold text-red-500 dark:text-red-400 text-xs xs:text-sm"><i class="fa-solid fa-ban mr-1"></i> 회피율 99.9% 작동</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
-                <!-- Chapter 1 -->
-                <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-2xl md:text-3xl">🚪</span>
-                            <span class="text-[10px] font-mono bg-dodamCream dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 01</span>
-                        </div>
-                        <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">발소리 마중 프로토콜</h3>
-                        <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                            평소엔 아무리 부르고 간청해도 도도함을 고수하지만, 집사의 복귀 발소리가 도어락 외부에서 감지되는 순간 기적적인 자동 마중 프로토콜이 구동됩니다. 현관 앞 대기와 야옹 소리를 무기로 집사의 귀갓길 보람을 증폭시키는 츤데레 지침의 핵심입니다.
-                        </p>
-                    </div>
-                    <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-dodamJade animate-ping"></span>
-                        센서 감지 시: 야옹 발사 준비 완료
-                    </div>
-                </div>
-
-                <!-- Chapter 2 -->
-                <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-2xl md:text-3xl">💕</span>
-                            <span class="text-[10px] font-mono bg-dodamCream dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 02</span>
-                        </div>
-                        <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">쓰다듬기 & 머리 들이밀기 구간</h3>
-                        <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                            주도권은 항상 도담이에게 있습니다. 본인이 직접 집사의 손길을 원해 다가와 머리를 들이밀 때만이 유일한 안심 쓰다듬기 골든타임입니다. 이 찬스를 발견하면 지체 없이 부드럽게 쓰다듬어 극상의 만족(야옹 연타)을 유도해야 합니다.
-                        </p>
-                    </div>
-                    <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                        머리를 부비는 모션 확인 후 스킨십 개시
-                    </div>
-                </div>
-
-                <!-- Chapter 3 -->
-                <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-2xl md:text-3xl">🍞</span>
-                            <span class="text-[10px] font-mono bg-dodamCream dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 03</span>
-                        </div>
-                        <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">한 줌 미니 식빵 규격 제한</h3>
-                        <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                            도담이는 보통의 묘체에 비해 다소 콤팩트한 체형을 유지 중입니다. 소파 위나 이불 위에 자리를 잡고 네 발을 안으로 굽혀 ‘식빵’을 제작할 때, 한 줌밖에 되지 않는 무공해 실루엣이 나타납니다. 섣부른 심장 가격에 주의하시고 눈으로만 감상하십시오.
-                        </p>
-                    </div>
-                    <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                        권장 감상 거리: 1미터 유지
-                    </div>
-                </div>
-
-                <!-- Chapter 4 -->
-                <div class="bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-2xl md:text-3xl">🛏️</span>
-                            <span class="text-[10px] font-mono bg-dodamCream dark:bg-[#3E3E3C] px-2 py-0.5 rounded text-dodamCharcoal/60 dark:text-darkText/60 transition-colors">CHAPTER 04</span>
-                        </div>
-                        <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-2">적당한 거리의 동반 법칙</h3>
-                        <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                            따로 또 같이의 결정체. 잘 때는 집사 침대 발치에서 은은하게 체온을 느끼게 해주고, 활동할 때는 거실이나 안방 등 가족들이 있는 공간의 한구석에 조용히 합류해 자리를 보전합니다. 지나치게 붙어 치대진 않지만 절대 멀어지지도 않는 세련된 동행 스타일입니다.
-                        </p>
-                    </div>
-                    <div class="border-t border-[#4A4A4A]/5 dark:border-white/5 mt-4 pt-3 text-[11px] text-dodamJade font-medium flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-dodamJade"></span>
-                        물리적 접근 경계값: 최소 30cm 이격 권장
-                    </div>
-                </div>
-
-                <!-- Chapter 5 -->
-                <div class="md:col-span-2 bg-dodamCream/40 dark:bg-[#252523]/40 border border-dodamJade/20 dark:border-dodamJade/30 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-5 md:gap-6 hover:shadow-md transition-all duration-300">
-                    <div class="max-w-2xl">
-                        <div class="flex gap-2 items-center mb-2 md:mb-3">
-                            <span class="text-xl md:text-2xl">🐾</span>
-                            <span class="text-[10px] font-mono bg-dodamJade/10 text-dodamJade font-bold px-2 py-0.5 rounded">CHAPTER 05</span>
-                        </div>
-                        <h3 class="serif-font text-lg md:text-xl font-bold text-dodamCharcoal dark:text-white mb-1.5">당당한 마이웨이 (외부인 대응 지침)</h3>
-                        <p class="text-xs xs:text-sm text-dodamCharcoal/80 dark:text-darkText/80 leading-relaxed">
-                            세월의 지혜(묘르신의 평화)를 획득하여 손님이 찾아오더라도 침대 밑에 고립되거나 떨지 않습니다. 다만 무례하게 선을 넘어 섣불리 쓰다듬으려는 외부인에게는 소리 없이 우아하게 유령처럼 스르륵 물러나는 경고 없는 거부권을 선언합니다.
-                        </p>
-                    </div>
-                    <div class="bg-white dark:bg-darkBg px-4 py-3.5 md:px-5 md:py-4 rounded-xl border border-dodamJade/10 dark:border-white/10 text-center w-full md:w-auto shrink-0 shadow-sm mt-2 md:mt-0 transition-all duration-300">
-                        <div class="text-[10px] xs:text-xs text-dodamCharcoal/60 dark:text-darkText/60 mb-0.5">외부인 터치 시</div>
-                        <span class="font-sans font-bold text-red-500 dark:text-red-400 text-xs xs:text-sm"><i class="fa-solid fa-ban mr-1"></i> 회피율 99.9% 작동</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: SIMULATOR SECTION -->
-        <div id="tab-simulator" class="tab-content py-16 md:py-24 px-4 xs:px-6 bg-dodamCream/30 dark:bg-darkCard/20 border-t border-[#4A4A4A]/5 dark:border-white/5 transition-colors duration-300">
+        <!-- SECTION 3: SIMULATOR SECTION -->
+        <section id="tab-simulator" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-white dark:bg-darkBg transition-colors duration-300">
             <div class="max-w-4xl mx-auto text-center">
                 <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">INTERACTIVE SIMULATION</span>
                 <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white mb-3">도담이와의 실전 밀당 체험</h2>
@@ -375,12 +374,12 @@
                     집사님의 가이드라인을 토대로 프로그래밍된 도담이 행동 반응로입니다.<br>하단의 버튼들을 클릭하여 도담이의 반응을 체크해 보세요!
                 </p>
 
-                <div class="bg-white dark:bg-darkCard rounded-2xl border border-[#4A4A4A]/10 dark:border-white/10 p-4 xs:p-6 md:p-10 shadow-lg max-w-xl mx-auto flex flex-col items-center transition-colors duration-300">
+                <div class="bg-dodamBg dark:bg-darkCard rounded-2xl border border-[#4A4A4A]/10 dark:border-white/10 p-4 xs:p-6 md:p-10 shadow-lg max-w-xl mx-auto flex flex-col items-center transition-colors duration-300">
                     
                     <!-- Display Box -->
-                    <div class="w-full h-64 md:h-72 bg-dodamBg dark:bg-darkBg rounded-xl border border-[#4A4A4A]/5 dark:border-white/5 flex flex-col justify-center items-center relative overflow-hidden mb-6 md:mb-8 px-4 transition-colors duration-300">
+                    <div class="w-full h-64 md:h-72 bg-white dark:bg-darkBg rounded-xl border border-[#4A4A4A]/5 dark:border-white/5 flex flex-col justify-center items-center relative overflow-hidden mb-6 md:mb-8 px-4 transition-colors duration-300">
                         <!-- Status bubble -->
-                        <div id="sim-bubble" class="absolute top-4 bg-white dark:bg-darkCard px-3.5 py-2 rounded-xl text-xs md:text-sm shadow-sm border border-dodamJade/10 dark:border-white/5 text-dodamCharcoal dark:text-darkText serif-font max-w-[90%] text-center leading-relaxed transition-all duration-300">
+                        <div id="sim-bubble" class="absolute top-4 bg-dodamBg dark:bg-darkCard px-3.5 py-2 rounded-xl text-xs md:text-sm shadow-sm border border-dodamJade/10 dark:border-white/5 text-dodamCharcoal dark:text-darkText serif-font max-w-[90%] text-center leading-relaxed transition-all duration-300">
                             (도담이가 침대 발치에서 나른하게 자고 있습니다 💤)
                         </div>
 
@@ -397,13 +396,13 @@
 
                     <!-- Action Button Matrix -->
                     <div class="grid grid-cols-2 gap-2 md:gap-4 w-full">
-                        <button onclick="interact('call')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-dodamCream/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText">
+                        <button onclick="interact('call')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
                             📢 "도담아!" 부르기
                         </button>
-                        <button onclick="interact('footstep')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-dodamCream/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText">
+                        <button onclick="interact('footstep')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
                             🚪 "터벅" 발소리 내기
                         </button>
-                        <button onclick="interact('overpet')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-dodamCream/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText">
+                        <button onclick="interact('overpet')" class="bg-white dark:bg-darkBg border border-[#4A4A4A]/20 dark:border-white/10 hover:border-dodamCharcoal/60 dark:hover:border-white/40 hover:bg-[#ECECE9]/30 dark:hover:bg-white/5 px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 text-dodamCharcoal dark:text-darkText shadow-sm">
                             🖐️ 억지로 계속 주무르기
                         </button>
                         <button onclick="interact('headbutt')" class="bg-dodamJade hover:bg-dodamJadeDark text-white px-1 py-3.5 rounded-xl text-[11px] xs:text-xs md:text-sm font-semibold transition-all flex items-center justify-center gap-1 shadow-sm">
@@ -417,59 +416,61 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- TAB 4: GUESTBOOK SECTION -->
-        <div id="tab-guestbook" class="tab-content py-16 md:py-24 px-4 xs:px-6 max-w-4xl mx-auto">
-            <div class="text-center mb-8 md:mb-12">
-                <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">COMMUNITY BOARD</span>
-                <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">우리 고양이 사용 설명서 자랑</h2>
-                <p class="text-xs xs:text-sm text-dodamCharcoal/60 dark:text-darkText/60 mt-1.5 max-w-lg mx-auto leading-relaxed">
-                    도담이처럼 은근한 반전 매력이나 츤데레적 면모를 소유한 고양이를 자랑하고 다른 집사님들과 공감대를 나눠보세요.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <!-- Form Card -->
-                <div class="md:col-span-1 bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 md:p-6 shadow-sm h-fit transition-colors duration-300">
-                    <h3 class="serif-font text-base xs:text-lg font-bold text-dodamCharcoal dark:text-white mb-3 md:mb-4">내 반려묘 등록</h3>
-                    <form id="catForm" onsubmit="addManual(event)" class="space-y-3.5">
-                        <div>
-                            <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">고양이 이름</label>
-                            <input type="text" id="catName" required placeholder="예: 나비" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">핵심 매력 (1줄 요약)</label>
-                            <input type="text" id="catTrait" required placeholder="예: 손가락을 주면 살짝 깨묾" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">밀당 행동 지침</label>
-                            <textarea id="catGuide" rows="3" required placeholder="예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠." class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText resize-none"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-dodamJade hover:bg-dodamJadeDark text-white py-2.5 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1 serif-font">
-                            <i class="fa-solid fa-feather-pointed"></i> 설명서 작성 완료
-                        </button>
-                    </form>
+        <!-- SECTION 4: GUESTBOOK SECTION -->
+        <section id="tab-guestbook" class="scroll-mt-20 py-20 md:py-28 px-4 xs:px-6 bg-[#ECECE9]/30 dark:bg-darkCard/25 border-t border-[#4A4A4A]/5 dark:border-white/5 transition-colors duration-300">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-8 md:mb-16">
+                    <span class="text-[10px] xs:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-dodamJade mb-1.5 block">COMMUNITY BOARD</span>
+                    <h2 class="serif-font text-2xl xs:text-3xl md:text-4xl font-bold text-dodamCharcoal dark:text-white">우리 고양이 사용 설명서 자랑</h2>
+                    <p class="text-xs xs:text-sm text-dodamCharcoal/60 dark:text-darkText/60 mt-1.5 max-w-lg mx-auto leading-relaxed">
+                        도담이처럼 은근한 반전 매력이나 츤데레적 면모를 소유한 고양이를 자랑하고 다른 집사님들과 공감대를 나눠보세요.
+                    </p>
                 </div>
 
-                <!-- List Card -->
-                <div class="md:col-span-2 space-y-4">
-                    <div class="flex justify-between items-center px-1">
-                        <span class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/80">동료 집사들이 남긴 공략 지침서</span>
-                        <span id="board-count" class="text-[10px] xs:text-xs font-mono text-dodamJade bg-dodamJade/10 dark:bg-dodamJade/20 px-2 py-0.5 rounded-full font-semibold">설명서 2개</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Form Card -->
+                    <div class="md:col-span-1 bg-white dark:bg-darkCard border border-[#4A4A4A]/10 dark:border-white/10 rounded-2xl p-5 md:p-6 shadow-sm h-fit transition-colors duration-300">
+                        <h3 class="serif-font text-base xs:text-lg font-bold text-dodamCharcoal dark:text-white mb-3 md:mb-4">내 반려묘 등록</h3>
+                        <form id="catForm" onsubmit="addManual(event)" class="space-y-3.5">
+                            <div>
+                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">고양이 이름</label>
+                                <input type="text" id="catName" required placeholder="예: 나비" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">핵심 매력 (1줄 요약)</label>
+                                <input type="text" id="catTrait" required placeholder="예: 손가락을 주면 살짝 깨묾" class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] xs:text-xs font-semibold text-dodamCharcoal/70 dark:text-darkText/70 mb-1">밀당 행동 지침</label>
+                                <textarea id="catGuide" rows="3" required placeholder="예: 간식 있을 때만 아는 척하지만, 잘 때 베개 위에 궁둥이를 대고 잠." class="w-full bg-[#F5F5F3] dark:bg-darkBg border border-[#4A4A4A]/10 dark:border-white/10 focus:border-dodamJade focus:ring-1 focus:ring-dodamJade rounded-xl px-3 py-2 text-xs xs:text-sm outline-none transition-all text-dodamCharcoal dark:text-darkText resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-dodamJade hover:bg-dodamJadeDark text-white py-2.5 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1 serif-font">
+                                <i class="fa-solid fa-feather-pointed"></i> 설명서 작성 완료
+                            </button>
+                        </form>
                     </div>
-                    
-                    <!-- Scrollable Guestbook Area -->
-                    <div id="manualList" class="space-y-4 max-h-[420px] md:max-h-[460px] overflow-y-auto pr-1">
-                        <!-- 이 영역은 스크립트의 initGuestbook을 통해 기본값과 저장된 데이터가 순서대로 안전하게 동적 렌더링됩니다 -->
+
+                    <!-- List Card -->
+                    <div class="md:col-span-2 space-y-4">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[10px] xs:text-xs font-bold uppercase tracking-wider text-dodamCharcoal/60 dark:text-darkText/80">동료 집사들이 남긴 공략 지침서</span>
+                            <span id="board-count" class="text-[10px] xs:text-xs font-mono text-dodamJade bg-dodamJade/10 dark:bg-dodamJade/20 px-2 py-0.5 rounded-full font-semibold">설명서 2개</span>
+                        </div>
+                        
+                        <!-- Scrollable Guestbook Area -->
+                        <div id="manualList" class="space-y-4 max-h-[420px] md:max-h-[460px] overflow-y-auto pr-1">
+                            <!-- 스크립트에서 자동 데이터 동적 렌더링 -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
     </main>
 
-    <!-- 콘텐츠 레이어를 파티클 캔버스 위로 올리기 위해 z-10 추가 -->
+    <!-- Footer -->
     <footer class="bg-dodamCharcoal dark:bg-darkBg text-[#D1D1CD] dark:text-[#8E8E8A] py-12 xs:py-16 px-4 xs:px-6 text-center border-t border-white/5 transition-colors duration-300 relative z-10">
         <div class="max-w-2xl mx-auto flex flex-col items-center">
             <div class="text-2xl md:text-3xl text-dodamJade mb-3 md:mb-4">
@@ -485,47 +486,18 @@
         </div>
     </footer>
 
-    <!-- Script Logic for Tabs, Theme Switching, Interaction & Guestbook -->
+    <!-- Script Logic -->
     <script>
-        // Tab switching controller with smooth anchor scrolling integration
-        function switchTab(targetId) {
-            // 1. Hide all tab contents
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // 2. Deactivate all tab buttons styling (ensuring they retain dark-mode responsive classes!)
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => {
-                btn.className = "tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-white dark:bg-darkCard text-dodamCharcoal dark:text-darkText border-[#4A4A4A]/20 dark:border-white/10 hover:bg-dodamCream dark:hover:bg-dodamCharcoal";
-            });
-
-            // 3. Show active content and highlight the associated button
-            const activeContent = document.getElementById(targetId);
-            if (activeContent) {
-                activeContent.classList.add('active');
-            }
-
-            const activeBtn = document.getElementById('btn-' + targetId);
-            if (activeBtn) {
-                activeBtn.className = "tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs xs:text-sm font-semibold transition-all serif-font border bg-dodamJade text-white border-dodamJade shadow-sm";
-                
-                // Keep the active tab button scrolled into center of tab menu in mobile view
-                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-
-            // 4. Smooth scroll to the tab selector section so users see the switched tab content instantly
-            const tabSection = document.getElementById('tab-section');
-            if (tabSection) {
-                const headerOffset = 60;
-                const elementPosition = tabSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+        // Toggle mobile hamburger navigation menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                icon.className = "fa-solid fa-bars";
+            } else {
+                menu.classList.add('open');
+                icon.className = "fa-solid fa-xmark";
             }
         }
 
@@ -772,7 +744,7 @@
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
-        ctx.height = window.innerHeight;
+            ctx.height = window.innerHeight;
             initParticles();
         }
 
@@ -832,14 +804,51 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // Window resize event handler
+        // 지능형 스크롤스파이(Scrollspy) 시스템 정의
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function activeMenuOnScroll() {
+            let currentSectionId = '';
+            const scrollPos = window.scrollY || document.documentElement.scrollTop;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100; // 헤더 오프셋 고려
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            // 데스크탑 메뉴 활성화 클래스 조절
+            navLinks.forEach(link => {
+                link.classList.remove('text-dodamJade', 'bg-dodamJade/10', 'dark:bg-dodamJade/20');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('text-dodamJade', 'bg-dodamJade/10', 'dark:bg-dodamJade/20');
+                }
+            });
+
+            // 모바일 메뉴 활성화 클래스 조절
+            mobileNavLinks.forEach(link => {
+                link.classList.remove('text-dodamJade');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('text-dodamJade');
+                }
+            });
+        }
+
+        // Window resize & scroll event handler
         window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('scroll', activeMenuOnScroll);
 
         // 로드 시 초기 호출 통합
         document.addEventListener('DOMContentLoaded', () => {
             initGuestbook();
             resizeCanvas();
             animateParticles();
+            activeMenuOnScroll();
         });
     </script>
 </body>
